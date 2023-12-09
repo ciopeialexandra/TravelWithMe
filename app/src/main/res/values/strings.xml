@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">TravelWithMe</string>
+    <string name="hello">Hey there,</string>
+    <string name="signup">Create an Account</string>
+    <string name="signin">Welcome Back</string>
+    <string name="labelValue">First Name</string>
+    <string name="labelValue2">Last Name</string>
+    <string name="labelValue3">Email</string>
+    <string name="labelValue4">Password</string>
+    <string name="terms">By continuing you accept our Privacy Policy and Term of Use</string>
+    <string name="terms_header">Term of Use</string>
+    <string name="register">Register</string>
+    <string name="login">Login</string>
+    <string name="account">Already have an account? Login</string>
+
+</resources>
