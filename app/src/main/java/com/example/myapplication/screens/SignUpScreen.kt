@@ -61,7 +61,7 @@ fun SignUpScreen() {
             Spacer(modifier = Modifier.height(40.dp))
             ButtonComponent(value = stringResource(id = R.string.register))
             DividerTextComponent()
-            ClickableLoginTextComponent(onTextSelected = {
+            ClickableLoginTextComponent(tryingToLogin = true,onTextSelected = {
                 TravelAppNavigate.navigateTo(Screen.SignInScreen)
             })
         }

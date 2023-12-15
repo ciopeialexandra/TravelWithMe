@@ -24,6 +24,7 @@ import com.example.myapplication.components.MyTextFieldComponent
 import com.example.myapplication.components.NormalTextComponent
 import com.example.myapplication.components.PasswordTextFieldComponent
 import com.example.myapplication.navigation.Screen
+import com.example.myapplication.navigation.SystemBackButtonHandler
 import com.example.myapplication.navigation.TravelAppNavigate
 
 @Composable
@@ -49,11 +50,14 @@ fun SignInScreen(){
             Spacer(modifier = Modifier.height(60.dp))
             ButtonComponent(value = stringResource(id = R.string.login))
             DividerTextComponent()
-            ClickableLoginTextComponent(onTextSelected = {
+            ClickableLoginTextComponent(tryingToLogin = false,onTextSelected = {
                 TravelAppNavigate.navigateTo(Screen.SignUpScreen)
             })
 
         }
 
+    }
+    SystemBackButtonHandler {
+        TravelAppNavigate.navigateTo(Screen.SignUpScreen)
     }
 }
