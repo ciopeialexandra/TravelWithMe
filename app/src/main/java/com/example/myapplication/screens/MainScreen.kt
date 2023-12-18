@@ -16,6 +16,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
+import com.example.myapplication.components.BottomBar
 import com.example.myapplication.data.SignUpViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -37,50 +38,5 @@ fun MainScreen(){
     }
 //}
 
-@Composable
-fun BottomBar(navController : NavHostController){
-    val screens = listOf(
-        BottomBarScreen.Explore,
-        BottomBarScreen.Story,
-        BottomBarScreen.Add,
-        BottomBarScreen.Search,
-        BottomBarScreen.Profile
-    )
-
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentDestination = navBackStackEntry?.destination
-
-    BottomNavigation{
-        screens.forEach{ screen ->
-            AddItem(screen = screen,
-                currentDestination = currentDestination,
-                navController = navController
-            )
-        }
-    }
-}
-
-@Composable
-fun RowScope.AddItem(
-    screen: BottomBarScreen,
-    currentDestination: NavDestination?,
-    navController: NavHostController
-){
-    BottomNavigationItem(
-        label = {
-            Text(text = screen.title)
-        },
-        icon = {
-            Icon(imageVector = screen.icon,
-                contentDescription = "Navigation Icon")
-        },
-        selected = currentDestination?.hierarchy?.any{
-            it.route == screen.route
-        } == true,
-        onClick = {
-            navController.navigate(screen.route)
-        }
-    )
-}
 
 

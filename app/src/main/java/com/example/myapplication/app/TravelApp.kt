@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.example.myapplication.navigation.Screen
 import com.example.myapplication.navigation.TravelAppNavigate
+import com.example.myapplication.screens.AddTripScreen
 import com.example.myapplication.screens.ForgotPasswordScreen
 import com.example.myapplication.screens.MainScreen
 import com.example.myapplication.screens.SignInScreen
@@ -34,6 +35,9 @@ fun TravelApp(){
                 }
                 is Screen.MainScreen->{
                     MainScreen()
+                }
+                is Screen.AddTripScreen->{
+                    AddTripScreen()
                 }
             }
 

@@ -6,6 +6,8 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.myapplication.navigation.Screen
+import com.example.myapplication.navigation.TravelAppNavigate
 import com.example.myapplication.screens.AddTripScreen
 import com.example.myapplication.screens.ExploreScreen
 
@@ -22,7 +24,7 @@ fun BottomNavGraph(navController: NavHostController){
 
         }
         composable(route = BottomBarScreen.Add.route){
-           AddTripScreen()
+            TravelAppNavigate.navigateTo(Screen.AddTripScreen)
         }
         composable(route = BottomBarScreen.Search.route){
 

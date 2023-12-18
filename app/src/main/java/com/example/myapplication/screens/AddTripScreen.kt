@@ -15,7 +15,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.components.NormalTextComponent
 
 
-@Preview
 @Composable
 fun AddTripScreen(){
     Surface (

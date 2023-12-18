@@ -10,6 +10,7 @@ sealed class Screen {
     object TermsAndConditionsScreen : Screen()
     object ForgotPasswordScreen : Screen()
     object MainScreen : Screen()
+    object AddTripScreen:Screen()
 }
 
 object TravelAppNavigate {
