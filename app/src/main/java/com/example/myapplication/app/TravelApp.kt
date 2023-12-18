@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.Color
 import com.example.myapplication.navigation.Screen
 import com.example.myapplication.navigation.TravelAppNavigate
 import com.example.myapplication.screens.ForgotPasswordScreen
+import com.example.myapplication.screens.MainScreen
 import com.example.myapplication.screens.SignInScreen
 import com.example.myapplication.screens.SignUpScreen
 import com.example.myapplication.screens.TermsAndCondtionsScreen
@@ -30,6 +31,9 @@ fun TravelApp(){
                 }
                 is Screen.ForgotPasswordScreen->{
                     ForgotPasswordScreen()
+                }
+                is Screen.MainScreen->{
+                    MainScreen()
                 }
             }
 
