@@ -22,21 +22,11 @@ import com.example.myapplication.data.SignUpViewModel
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MainScreen(){
-//    Surface (
-//        modifier = Modifier
-//            .fillMaxSize()
-//            .padding(28.dp)
-//            .background(color = Color.Black)
-//    ){
-        val navController = rememberNavController()
-
-        Scaffold (
-            bottomBar = { BottomBar(navController = navController)}
-        ){
-            BottomNavGraph(navController = navController)
-        }
-    }
-//}
-
-
-
+//    val navController = rememberNavController()
+//
+//        Scaffold (
+//            bottomBar = { BottomBar(navController = navController)}
+//        ){
+//            BottomNavGraph(navController = navController)
+//        }
+}

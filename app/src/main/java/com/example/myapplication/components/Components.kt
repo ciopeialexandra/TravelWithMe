@@ -79,6 +79,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.example.myapplication.ui.theme.PurpleGrey40
 @Composable
@@ -410,6 +411,7 @@ fun BottomBar(navController : NavHostController){
     }
 }
 
+
 @Composable
 fun RowScope.AddItem(
     screen: BottomBarScreen,
@@ -434,24 +436,6 @@ fun RowScope.AddItem(
         }
     )
 }
-
-@Composable
-fun HeadingWhiteTextComponent(value:String){
-    Text(text = value,
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = 40.dp),
-        style = TextStyle(
-            fontSize = 30.sp,
-            fontWeight = FontWeight.Bold,
-            fontStyle = FontStyle.Normal
-        ),
-        color = Color.White,
-        textAlign = TextAlign.Center
-
-    )
-}
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

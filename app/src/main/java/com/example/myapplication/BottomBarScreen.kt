@@ -8,7 +8,7 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.ui.graphics.vector.ImageVector
 
-open class BottomBarScreen (
+sealed class BottomBarScreen (
     val route: String,
     val title: String,
     val icon: ImageVector
