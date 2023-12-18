@@ -18,7 +18,7 @@ fun BottomNavGraph(navController: NavHostController){
         startDestination = BottomBarScreen.Explore.route
     ){
         composable(route = BottomBarScreen.Explore.route){
-            ExploreScreen()
+            TravelAppNavigate.navigateTo(Screen.ExploreScreen)
         }
         composable(route = BottomBarScreen.Story.route){
 

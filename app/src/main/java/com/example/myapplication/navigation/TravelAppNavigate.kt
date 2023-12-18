@@ -11,6 +11,7 @@ sealed class Screen {
     object ForgotPasswordScreen : Screen()
     object MainScreen : Screen()
     object AddTripScreen:Screen()
+    object ExploreScreen:Screen()
 }
 
 object TravelAppNavigate {

@@ -42,7 +42,7 @@ class LoginViewModel:ViewModel() {
             .addOnCompleteListener{
                 Log.d(TAG,"is succesful = ${it.isSuccessful}")
                 if(it.isSuccessful){
-                    TravelAppNavigate.navigateTo(Screen.MainScreen)
+                    TravelAppNavigate.navigateTo(Screen.ExploreScreen)
                 }
             }
             .addOnFailureListener{

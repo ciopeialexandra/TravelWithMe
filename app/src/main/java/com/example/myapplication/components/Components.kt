@@ -59,7 +59,28 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.myapplication.BottomBarScreen
 import com.example.myapplication.ui.theme.Primary
 import com.example.myapplication.ui.theme.labelColor
-
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material3.TextField
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.input.TextFieldValue
+import coil.compose.rememberImagePainter
+import com.example.myapplication.ui.theme.PurpleGrey40
 @Composable
 fun NormalTextComponent(value:String){
     Text(text = value,
@@ -76,7 +97,22 @@ fun NormalTextComponent(value:String){
 
     )
 }
+@Composable
+fun LeftTextComponent(value:String){
+    Text(text = value,
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = 40.dp),
+        style = TextStyle(
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Normal,
+            fontStyle = FontStyle.Normal
+        ),
+        color = Color.Black,
+        textAlign = TextAlign.Left
 
+    )
+}
 @Composable
 fun HeadingTextComponent(value:String){
     Text(text = value,
@@ -397,4 +433,102 @@ fun RowScope.AddItem(
             navController.navigate(screen.route)
         }
     )
+}
+
+@Composable
+fun HeadingWhiteTextComponent(value:String){
+    Text(text = value,
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = 40.dp),
+        style = TextStyle(
+            fontSize = 30.sp,
+            fontWeight = FontWeight.Bold,
+            fontStyle = FontStyle.Normal
+        ),
+        color = Color.White,
+        textAlign = TextAlign.Center
+
+    )
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CenteredInRowTextField() {
+    var text by remember { mutableStateOf(TextFieldValue("")) }
+
+    val backgroundColorModifier = Modifier.background(PurpleGrey40)
+
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center
+    ) {
+        Spacer(modifier = Modifier.weight(1f)) // Adaugă un spațiu flexibil în stânga text field-ului
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier
+                .clip(RoundedCornerShape(8.dp)) // Margini curbate
+//                .background(PurpleGrey40) // Culoare de fundal
+                .border(0.7.dp, PurpleGrey40, shape = RoundedCornerShape(8.dp)) // Bordură
+                .padding(8.dp) // Spațiu pentru text în interior
+                .widthIn(max = 300.dp) // Lățimea maximă pentru text field
+                .height(56.dp) // Înălțimea text field-ului
+                .then(backgroundColorModifier)
+        ) {
+            TextField(
+                value = text,
+                onValueChange = { newText ->
+                    text = newText
+                },
+                modifier = Modifier.fillMaxWidth(),
+                colors = TextFieldDefaults.textFieldColors(
+                    unfocusedLabelColor = PurpleGrey40,
+                    focusedLabelColor = PurpleGrey40
+                )
+            )
+        }
+        Spacer(modifier = Modifier.weight(1f)) // Adaugă un spațiu flexibil în dreapta text field-ului
+    }
+}
+
+@Composable
+fun AddPhotosFromGallery(){
+    var selectImages by remember { mutableStateOf(listOf<Uri>()) }
+
+    val galleryLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.GetMultipleContents()) {
+            selectImages = it
+        }
+
+    Row(
+        Modifier.fillMaxSize(),
+//            horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Button(
+            onClick = { galleryLauncher.launch("image/*") },
+            modifier = Modifier
+                .wrapContentSize()
+                .padding(10.dp)
+        ) {
+            Text(text = "Pick Image From Gallery")
+        }
+
+        LazyVerticalGrid(columns = GridCells.Fixed(3)) {
+            items(selectImages) { uri ->
+                Image(
+                    painter = rememberImagePainter(uri),
+                    contentScale = ContentScale.FillWidth,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .padding(16.dp, 8.dp)
+                        .size(100.dp)
+                        .clickable {
+
+                        }
+                )
+            }
+        }
+
+    }
 }

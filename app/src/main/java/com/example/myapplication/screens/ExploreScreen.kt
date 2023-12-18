@@ -17,9 +17,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.BottomNavGraph
+import com.example.myapplication.components.BottomBar
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Preview
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun ExploreScreen(){
     Surface (
@@ -30,4 +30,11 @@ fun ExploreScreen(){
     ){
 
     }
+        val navController = rememberNavController()
+
+        androidx.compose.material.Scaffold(
+            bottomBar = { BottomBar(navController = navController) }
+        ) {
+            BottomNavGraph(navController = navController)
+        }
 }
