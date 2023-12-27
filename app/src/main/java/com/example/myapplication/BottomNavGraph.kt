@@ -7,6 +7,8 @@ import androidx.navigation.compose.composable
 import com.example.myapplication.navigation.Screen
 import com.example.myapplication.navigation.TravelAppNavigate
 import com.example.myapplication.screens.AddTripScreen
+import com.example.myapplication.screens.ExploreScreen
+import com.example.myapplication.screens.ProfileScreen
 
 
 @Composable
@@ -28,7 +30,7 @@ fun BottomNavGraph(navController: NavHostController){
 
         }
         composable(route = BottomBarScreen.Profile.route){
-
+            ProfileScreen()
         }
     }
 }

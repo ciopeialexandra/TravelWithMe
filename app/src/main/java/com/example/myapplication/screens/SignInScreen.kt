@@ -1,6 +1,7 @@
 package com.example.myapplication.screens
 
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -32,6 +33,7 @@ import com.example.myapplication.data.SignUpViewModel
 import com.example.myapplication.navigation.Screen
 import com.example.myapplication.navigation.SystemBackButtonHandler
 import com.example.myapplication.navigation.TravelAppNavigate
+var nameUser = ""
 
 @Composable
 fun SignInScreen(loginViewModel: LoginViewModel = viewModel()){
@@ -43,7 +45,7 @@ fun SignInScreen(loginViewModel: LoginViewModel = viewModel()){
     {
         Column ( modifier = Modifier
             .fillMaxSize()){
-            NormalTextComponent(value = stringResource(id = R.string.login))
+            NormalTextComponent(value = stringResource(id =  R.string.login))
             HeadingTextComponent(value = stringResource(id = R.string.signin))
             Spacer(modifier = Modifier.height(80.dp))
             MyTextFieldComponent(labelValue = stringResource(id = R.string.labelValue3), painterResource = painterResource(
@@ -67,6 +69,7 @@ fun SignInScreen(loginViewModel: LoginViewModel = viewModel()){
             ButtonComponent(value = stringResource(id = R.string.login),
                 onButtonClicked = {
                                   loginViewModel.onEvent(LoginUIEvent.LoginButtonClicked)
+                    loginViewModel.findUser(loginViewModel.loginUIState.value.email)
                 },
                 isEnabled = loginViewModel.allValidationPassed.value
             )
@@ -77,9 +80,10 @@ fun SignInScreen(loginViewModel: LoginViewModel = viewModel()){
 
         }
         if(loginViewModel.loginProgress.value) {
+               nameUser = loginViewModel.findUser(loginViewModel.loginUIState.value.email).toString()
+            Log.d("aici", nameUser)
             CircularProgressIndicator()
         }
-
     }
     SystemBackButtonHandler {
         TravelAppNavigate.navigateTo(Screen.SignUpScreen)

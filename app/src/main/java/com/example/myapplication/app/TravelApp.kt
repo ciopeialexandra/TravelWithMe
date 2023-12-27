@@ -5,6 +5,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import com.example.myapplication.data.LoginViewModel
+import com.example.myapplication.data.SignUpViewModel
+import com.example.myapplication.data.firebase.FirebaseUserStore
 import com.example.myapplication.navigation.Screen
 import com.example.myapplication.navigation.TravelAppNavigate
 import com.example.myapplication.screens.AddTripScreen
@@ -17,19 +20,23 @@ import com.example.myapplication.screens.TermsAndCondtionsScreen
 
 @Composable
 fun TravelApp(){
+    lateinit var viewModel: SignUpViewModel
+    lateinit var viewModel2: LoginViewModel
     Surface (modifier = Modifier.fillMaxSize(),
         color = Color.White
     ){
         Crossfade(targetState = TravelAppNavigate.currentScreen) { currentState->
             when(currentState.value){
                 is Screen.SignUpScreen->{
-                    SignUpScreen()
+                    viewModel = SignUpViewModel(FirebaseUserStore())
+                    SignUpScreen(viewModel)
                 }
                 is Screen.TermsAndConditionsScreen->{
                     TermsAndCondtionsScreen()
                 }
                 is Screen.SignInScreen->{
-                    SignInScreen()
+                    viewModel2 = LoginViewModel(FirebaseUserStore())
+                    SignInScreen(viewModel2)
                 }
                 is Screen.ForgotPasswordScreen->{
                     ForgotPasswordScreen()

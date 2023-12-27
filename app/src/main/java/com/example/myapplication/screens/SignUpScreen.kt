@@ -1,6 +1,7 @@
 package com.example.myapplication.screens
 
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -92,6 +93,7 @@ fun SignUpScreen(signUpViewModel: SignUpViewModel = viewModel()) {
             })
         }
         if(signUpViewModel.signUpProgress.value) {
+            signUpViewModel.addUser(signUpViewModel.registrationUIState.value.email,signUpViewModel.registrationUIState.value.firstName,signUpViewModel.registrationUIState.value.lastName)
             CircularProgressIndicator()
         }
     }

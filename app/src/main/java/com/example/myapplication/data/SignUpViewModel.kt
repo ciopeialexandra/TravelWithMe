@@ -9,11 +9,15 @@ import com.example.myapplication.navigation.TravelAppNavigate
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuth.AuthStateListener
 
-class SignUpViewModel:ViewModel() {
+class SignUpViewModel(private val userRepository: UserRepository) :ViewModel() {
     private val TAG = SignUpViewModel::class.simpleName
     var registrationUIState = mutableStateOf(RegistrationUIState())
     var allValidationPassed = mutableStateOf(false)
     var signUpProgress = mutableStateOf(false)
+
+    fun addUser(email: String,firstName:String,lastName: String) {
+        userRepository.addUser(User(email, firstName , lastName ))
+    }
     fun onEvent(event : SignUpUIEvent){
         validateDataWithRules()
         when(event){
@@ -53,7 +57,9 @@ class SignUpViewModel:ViewModel() {
         validateDataWithRules()
         createUserInFirebase(
             email = registrationUIState.value.email ,
-            password = registrationUIState.value.password
+            password = registrationUIState.value.password,
+            firstName = registrationUIState.value.firstName,
+            lastName = registrationUIState.value.lastName
         )
     }
 
@@ -86,7 +92,7 @@ class SignUpViewModel:ViewModel() {
     private fun printState(){
         Log.d(TAG,registrationUIState.value.toString())
     }
-    private fun createUserInFirebase(email:String,password:String){
+    private fun createUserInFirebase(email:String,password:String,firstName:String,lastName:String){
         signUpProgress.value = true
         FirebaseAuth.getInstance()
             .createUserWithEmailAndPassword(email,password)

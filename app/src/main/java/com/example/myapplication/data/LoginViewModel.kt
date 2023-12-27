@@ -8,11 +8,14 @@ import com.example.myapplication.navigation.Screen
 import com.example.myapplication.navigation.TravelAppNavigate
 import com.google.firebase.auth.FirebaseAuth
 
-class LoginViewModel:ViewModel() {
+class LoginViewModel(private val userRepository: UserRepository):ViewModel() {
     private val TAG = LoginViewModel::class.simpleName
     var loginUIState = mutableStateOf(LoginUIState())
     var allValidationPassed = mutableStateOf(false)
     var loginProgress = mutableStateOf(false)
+    fun findUser(email: String) {
+        userRepository.findUser(email)
+    }
     fun onEvent(event : LoginUIEvent) {
         when (event) {
             is LoginUIEvent.EmailChanged -> {
