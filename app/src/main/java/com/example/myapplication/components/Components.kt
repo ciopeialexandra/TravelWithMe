@@ -1,38 +1,20 @@
 package com.example.myapplication.components
 
-import android.annotation.SuppressLint
-import android.net.Uri
 import android.util.Log
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
@@ -45,28 +27,26 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
@@ -76,14 +56,32 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
-import coil.compose.rememberImagePainter
+import com.example.myapplication.BottomBarScreen
 import com.example.myapplication.ui.theme.Primary
 import com.example.myapplication.ui.theme.labelColor
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material3.TextField
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.input.TextFieldValue
+import androidx.navigation.NavController
+import coil.compose.rememberImagePainter
 import com.example.myapplication.ui.theme.PurpleGrey40
-import com.example.myapplication.navigation.BottomBarScreen
-import com.example.myapplication.navigation.BottomNavGraph
-
 @Composable
 fun NormalTextComponent(value:String){
     Text(text = value,
@@ -100,8 +98,6 @@ fun NormalTextComponent(value:String){
 
     )
 }
-
-
 @Composable
 fun LeftTextComponent(value:String){
     Text(text = value,
@@ -113,12 +109,11 @@ fun LeftTextComponent(value:String){
             fontWeight = FontWeight.Normal,
             fontStyle = FontStyle.Normal
         ),
-        color = Color.White,
+        color = Color.Black,
         textAlign = TextAlign.Left
 
     )
 }
-
 @Composable
 fun HeadingTextComponent(value:String){
     Text(text = value,
@@ -135,26 +130,12 @@ fun HeadingTextComponent(value:String){
 
     )
 }
-
-@Composable
-fun HeadingWhiteTextComponent(value:String){
-    Text(text = value,
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = 40.dp),
-        style = TextStyle(
-            fontSize = 30.sp,
-            fontWeight = FontWeight.Bold,
-            fontStyle = FontStyle.Normal
-        ),
-        color = Color.White,
-        textAlign = TextAlign.Center
-
-    )
-}
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyTextFieldComponent(labelValue: String, painterResource: Painter){
+fun MyTextFieldComponent(labelValue: String, painterResource: Painter,
+                         onTextSelected: (String) -> Unit,
+                         errorStatus:Boolean = false
+                         ){
     val textValue = remember {
         mutableStateOf("")
     }
@@ -171,20 +152,30 @@ fun MyTextFieldComponent(labelValue: String, painterResource: Painter){
 
 
         ),
-        keyboardOptions = KeyboardOptions.Default,
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
         value = textValue.value,
         onValueChange = {
             textValue.value = it
+            onTextSelected(it)
         },
         leadingIcon = {
             Icon(painter = painterResource, contentDescription = "")
-        }
+        },
+        singleLine = true,
+        maxLines = 1,
+        isError = !errorStatus
     )
+
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PasswordTextFieldComponent(labelValue: String, painterResource: Painter) {
+fun PasswordTextFieldComponent(labelValue: String, painterResource: Painter,
+                               onTextSelected: (String) -> Unit,
+                               errorStatus:Boolean
+) {
+    val localFocusManager = LocalFocusManager.current
     val password = remember {
         mutableStateOf("")
     }
@@ -204,10 +195,16 @@ fun PasswordTextFieldComponent(labelValue: String, painterResource: Painter) {
 
 
         ),
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = ImeAction.Done),
+        singleLine = true,
+        maxLines = 1,
+        keyboardActions = KeyboardActions(){
+                                           localFocusManager.clearFocus()
+        },
         value = password.value,
         onValueChange = {
             password.value = it
+            onTextSelected(it)
         },
         leadingIcon = {
             Icon(painter = painterResource, contentDescription = "")
@@ -228,12 +225,14 @@ fun PasswordTextFieldComponent(labelValue: String, painterResource: Painter) {
 
             }
         },
-        visualTransformation = if (passwordVisible.value) VisualTransformation.None else PasswordVisualTransformation()
+        visualTransformation = if (passwordVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
+        isError = !errorStatus
     )
 }
 
 @Composable
-fun CheckboxComponent(value:String ,onTextSelected:(String)->Unit){
+fun CheckboxComponent(value:String ,onTextSelected:(String)->Unit,
+                      onCheckedChanged:(Boolean) -> Unit){
     Row (modifier = Modifier
         .fillMaxWidth()
         .heightIn(56.dp),
@@ -244,6 +243,7 @@ fun CheckboxComponent(value:String ,onTextSelected:(String)->Unit){
         }
         Checkbox(checked = checkedState.value, onCheckedChange ={
             checkedState.value = !checkedState.value
+            onCheckedChanged.invoke(it)
         } )
         ClickableTextComponent(value = value,onTextSelected)
     }
@@ -278,13 +278,18 @@ fun ClickableTextComponent(value:String,onTextSelected:(String)->Unit){
     })
 }
 @Composable
-fun ButtonComponent(value: String){
-    Button(onClick = { },
+fun ButtonComponent(value: String,onButtonClicked : ()-> Unit,
+                    isEnabled:Boolean = false){
+    Button(onClick = {
+                     onButtonClicked.invoke()
+    },
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(48.dp),
         contentPadding = PaddingValues(),
-        colors = ButtonDefaults.buttonColors(Color.Transparent)
+        colors = ButtonDefaults.buttonColors(Color.Transparent),
+        shape = RoundedCornerShape(50.dp),
+        enabled = isEnabled
     ) {
         Box( modifier = Modifier
             .fillMaxWidth()
@@ -325,9 +330,9 @@ fun DividerTextComponent(){
 }
 
 @Composable
-fun ClickableLoginTextComponent(onTextSelected:(String)->Unit){
-    val initialText = "Already have an account?"
-    val loginText = "  Login"
+fun ClickableLoginTextComponent(tryingToLogin:Boolean = true,onTextSelected:(String)->Unit){
+    val initialText = if(tryingToLogin) "Already have an account?" else "Don't have an account yet?"
+    val loginText =  if(tryingToLogin) " Login" else "Register"
     val annotatedText = buildAnnotatedString {
         append(initialText)
         withStyle(style = SpanStyle(color = Primary)) {
@@ -339,7 +344,7 @@ fun ClickableLoginTextComponent(onTextSelected:(String)->Unit){
         .fillMaxWidth()
         .heightIn(min = 40.dp),
         style = TextStyle(
-            fontSize = 24.sp,
+            fontSize = 18.sp,
             fontWeight = FontWeight.Normal,
             fontStyle = FontStyle.Normal,
             textAlign = TextAlign.Center
@@ -383,86 +388,6 @@ fun ClickablePasswordTextComponent(onTextSelected:(String)->Unit){
         })
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun CenteredInRowTextField() {
-    var text by remember { mutableStateOf(TextFieldValue("")) }
-
-    val backgroundColorModifier = Modifier.background(PurpleGrey40)
-
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Center
-    ) {
-        Spacer(modifier = Modifier.weight(1f)) // Adaugă un spațiu flexibil în stânga text field-ului
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .clip(RoundedCornerShape(8.dp)) // Margini curbate
-//                .background(PurpleGrey40) // Culoare de fundal
-                .border(0.7.dp, PurpleGrey40, shape = RoundedCornerShape(8.dp)) // Bordură
-                .padding(8.dp) // Spațiu pentru text în interior
-                .widthIn(max = 300.dp) // Lățimea maximă pentru text field
-                .height(56.dp) // Înălțimea text field-ului
-                .then(backgroundColorModifier)
-        ) {
-            TextField(
-                value = text,
-                onValueChange = { newText ->
-                    text = newText
-                },
-                modifier = Modifier.fillMaxWidth(),
-                colors = TextFieldDefaults.textFieldColors(
-                    unfocusedLabelColor = PurpleGrey40,
-                    focusedLabelColor = PurpleGrey40
-                )
-            )
-        }
-        Spacer(modifier = Modifier.weight(1f)) // Adaugă un spațiu flexibil în dreapta text field-ului
-    }
-}
-
-@Composable
-fun AddPhotosFromGallery(){
-        var selectImages by remember { mutableStateOf(listOf<Uri>()) }
-
-        val galleryLauncher =
-            rememberLauncherForActivityResult(ActivityResultContracts.GetMultipleContents()) {
-                selectImages = it
-            }
-
-        Row(
-            Modifier.fillMaxSize(),
-//            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Button(
-                onClick = { galleryLauncher.launch("image/*") },
-                modifier = Modifier
-                    .wrapContentSize()
-                    .padding(10.dp)
-            ) {
-                Text(text = "Pick Image From Gallery")
-            }
-
-            LazyVerticalGrid(columns = GridCells.Fixed(3)) {
-                items(selectImages) { uri ->
-                    Image(
-                        painter = rememberImagePainter(uri),
-                        contentScale = ContentScale.FillWidth,
-                        contentDescription = null,
-                        modifier = Modifier
-                            .padding(16.dp, 8.dp)
-                            .size(100.dp)
-                            .clickable {
-
-                            }
-                    )
-                }
-            }
-
-        }
-}
-
 @Composable
 fun BottomBar(navController : NavHostController){
     val screens = listOf(
@@ -476,7 +401,6 @@ fun BottomBar(navController : NavHostController){
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    //add items to button navigation
     BottomNavigation{
         screens.forEach{ screen ->
             AddItem(screen = screen,
@@ -486,6 +410,7 @@ fun BottomBar(navController : NavHostController){
         }
     }
 }
+
 
 @Composable
 fun RowScope.AddItem(
@@ -512,14 +437,90 @@ fun RowScope.AddItem(
     )
 }
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MenuBar(){
-    val navController = rememberNavController()
+fun CenteredInRowTextField(onTextSelected: (String) -> Unit,) {
+    var text by remember { mutableStateOf(TextFieldValue("")) }
 
-    Scaffold (
-        bottomBar = { com.example.myapplication.components.BottomBar(navController = navController) }
-    ){
-        BottomNavGraph(navController = navController)
+    val backgroundColorModifier = Modifier.background(PurpleGrey40)
+
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center
+    ) {
+        Spacer(modifier = Modifier.weight(1f)) // Adaugă un spațiu flexibil în stânga text field-ului
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier
+                .clip(RoundedCornerShape(8.dp)) // Margini curbate
+//                .background(PurpleGrey40) // Culoare de fundal
+                .border(0.7.dp, PurpleGrey40, shape = RoundedCornerShape(8.dp)) // Bordură
+                .padding(8.dp) // Spațiu pentru text în interior
+                .widthIn(max = 300.dp) // Lățimea maximă pentru text field
+                .height(36.dp) // Înălțimea text field-ului
+                .then(backgroundColorModifier)
+        ) {
+            TextField(
+                value = text,
+                onValueChange = { newText ->
+                    text = newText
+                },
+                modifier = Modifier.fillMaxWidth(),
+                colors = TextFieldDefaults.textFieldColors(
+                    unfocusedLabelColor = PurpleGrey40,
+                    focusedLabelColor = PurpleGrey40
+                )
+            )
+        }
+        Spacer(modifier = Modifier.weight(1f)) // Adaugă un spațiu flexibil în dreapta text field-ului
+    }
+}
+
+@Composable
+fun AddPhotosFromGallery(){
+    var selectImages by remember { mutableStateOf(listOf<Uri>()) }
+
+    val galleryLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.GetMultipleContents()) {
+            selectImages = it
+        }
+
+    Row(
+        Modifier.fillMaxSize(),
+//            horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Button(
+            onClick = { galleryLauncher.launch("image/*") },
+            modifier = Modifier
+                .wrapContentSize()
+                .padding(10.dp)
+        ) {
+            Text(text = "Pick Image From Gallery")
+        }
+
+        LazyVerticalGrid(columns = GridCells.Fixed(3)) {
+            items(selectImages) { uri ->
+                Image(
+                    painter = rememberImagePainter(uri),
+                    contentScale = ContentScale.FillWidth,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .padding(16.dp, 8.dp)
+                        .size(100.dp)
+                        .clickable {
+
+                        }
+                )
+            }
+        }
+
+    }
+}
+
+@Composable
+fun SaveButton(onButtonClicked : ()-> Unit){
+    Button(onClick = { /*TODO*/ },
+        modifier = Modifier.padding(top = 16.dp)){
+        Text(text = "Save")
     }
 }

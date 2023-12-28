@@ -1,18 +1,20 @@
 package com.example.myapplication.screens
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.myapplication.components.MenuBar
+import androidx.navigation.compose.rememberNavController
+import com.example.myapplication.BottomNavGraph
+import com.example.myapplication.components.BottomBar
 
-@Preview
+
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun ExploreScreen(){
     Surface (
@@ -20,8 +22,15 @@ fun ExploreScreen(){
             .fillMaxSize()
             .padding(28.dp)
             .background(color = Color.Black)
-    )
-    {
-        MenuBar()
+    ){
+
     }
+        val navController = rememberNavController()
+
+        androidx.compose.material.Scaffold(
+            bottomBar = { BottomBar(navController = navController) }
+        ) {
+            BottomNavGraph(navController = navController)
+        }
+
 }
