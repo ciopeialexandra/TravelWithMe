@@ -27,16 +27,16 @@ fun TravelApp(){
     ){
         Crossfade(targetState = TravelAppNavigate.currentScreen) { currentState->
             when(currentState.value){
+                is Screen.SignInScreen->{
+                    viewModel2 = LoginViewModel(FirebaseUserStore())
+                    SignInScreen(viewModel2)
+                }
                 is Screen.SignUpScreen->{
                     viewModel = SignUpViewModel(FirebaseUserStore())
                     SignUpScreen(viewModel)
                 }
                 is Screen.TermsAndConditionsScreen->{
                     TermsAndCondtionsScreen()
-                }
-                is Screen.SignInScreen->{
-                    viewModel2 = LoginViewModel(FirebaseUserStore())
-                    SignInScreen(viewModel2)
                 }
                 is Screen.ForgotPasswordScreen->{
                     ForgotPasswordScreen()

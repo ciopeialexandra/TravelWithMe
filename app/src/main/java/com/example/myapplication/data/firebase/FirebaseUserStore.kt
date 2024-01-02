@@ -12,7 +12,7 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 
-
+var emailUser = ""
 class FirebaseUserStore : UserRepository {
 
     private val database = FirebaseDatabase.getInstance().reference.child("user")
@@ -63,6 +63,7 @@ class FirebaseUserStore : UserRepository {
                             child.getValue(UserNode::class.java)?.firstName + " " +child.getValue(
                                 UserNode::class.java
                             )?.lastName
+                        emailUser = email
                     }
                 }
                 nameUser = fullname

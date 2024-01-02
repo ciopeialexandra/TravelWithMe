@@ -80,10 +80,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.navigation.NavController
+import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import com.example.myapplication.ui.theme.PurpleGrey40
 @Composable
-fun NormalTextComponent(value:String){
+fun NormalTextComponent(value:String,direction:String){
     Text(text = value,
         modifier = Modifier
             .fillMaxWidth()
@@ -94,7 +95,9 @@ fun NormalTextComponent(value:String){
             fontStyle = FontStyle.Normal
         ),
         color = Color.Black,
-        textAlign = TextAlign.Center
+        textAlign = if (direction == "Center") TextAlign.Center
+        else if (direction == "Left") TextAlign.Left
+        else TextAlign.Right
 
     )
 }
@@ -215,7 +218,7 @@ fun PasswordTextFieldComponent(labelValue: String, painterResource: Painter,
             } else {
                 Icons.Filled.VisibilityOff
             }
-            var description = if (passwordVisible.value) {
+            val description = if (passwordVisible.value) {
                 "Hide password"
             } else {
                 "Show password"
@@ -252,14 +255,14 @@ fun CheckboxComponent(value:String ,onTextSelected:(String)->Unit,
 @Composable
 fun ClickableTextComponent(value:String,onTextSelected:(String)->Unit){
     val initialText = "By continuing this you accept our "
-    val PrivacyPolicyText ="Privacy Policy "
+    val privacyPolicyText ="Privacy Policy "
     val andText = "and "
     val termText = "Term of Use"
     val annotatedText = buildAnnotatedString {
         append(initialText)
         withStyle(style = SpanStyle(color = Primary)) {
-            pushStringAnnotation(tag = PrivacyPolicyText, annotation = PrivacyPolicyText)
-            append(PrivacyPolicyText)
+            pushStringAnnotation(tag = privacyPolicyText, annotation = privacyPolicyText)
+            append(privacyPolicyText)
         }
         append(andText)
         withStyle(style = SpanStyle(color = Primary)) {
@@ -271,7 +274,7 @@ fun ClickableTextComponent(value:String,onTextSelected:(String)->Unit){
             offset->annotatedText.getStringAnnotations(offset,offset)
         .firstOrNull()?.also {span->
             Log.d("ClickableTextComponent","{${span.item}}")
-            if((span.item==termText)||(span.item==PrivacyPolicyText)){
+            if((span.item==termText)||(span.item==privacyPolicyText)){
                 onTextSelected(span.item)
             }
         }
@@ -501,7 +504,7 @@ fun AddPhotosFromGallery(){
         LazyVerticalGrid(columns = GridCells.Fixed(3)) {
             items(selectImages) { uri ->
                 Image(
-                    painter = rememberImagePainter(uri),
+                    painter = rememberAsyncImagePainter(uri),
                     contentScale = ContentScale.FillWidth,
                     contentDescription = null,
                     modifier = Modifier
