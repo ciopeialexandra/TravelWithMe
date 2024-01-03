@@ -11,6 +11,7 @@ import com.example.myapplication.navigation.TravelAppNavigate
 import com.example.myapplication.screens.AddTripScreen
 import com.example.myapplication.screens.ExploreScreen
 import com.example.myapplication.screens.ProfileScreen
+import com.example.myapplication.screens.SearchScreen
 
 lateinit var viewModel3: TripViewModel
 @Composable
@@ -30,7 +31,8 @@ fun BottomNavGraph(navController: NavHostController){
             AddTripScreen(viewModel3)
         }
         composable(route = BottomBarScreen.Search.route){
-
+            viewModel3  = TripViewModel(FirebaseTripStore())
+            SearchScreen(viewModel3)
         }
         composable(route = BottomBarScreen.Profile.route){
             ProfileScreen()
