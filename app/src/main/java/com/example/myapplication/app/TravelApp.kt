@@ -17,6 +17,7 @@ import com.example.myapplication.screens.ExploreScreen
 import com.example.myapplication.screens.ForgotPasswordScreen
 import com.example.myapplication.screens.MainScreen
 import com.example.myapplication.screens.ProfileScreen
+import com.example.myapplication.screens.SearchScreen
 import com.example.myapplication.screens.SignInScreen
 import com.example.myapplication.screens.SignUpScreen
 import com.example.myapplication.screens.TermsAndCondtionsScreen
@@ -62,6 +63,11 @@ fun TravelApp(){
 
                 is Screen.ProfileScreen ->{
                     ProfileScreen()
+                }
+
+                is Screen.SearchScreen -> {
+                    viewModel3  = TripViewModel(FirebaseTripStore())
+                    SearchScreen(viewModel3)
                 }
             }
 
