@@ -131,6 +131,39 @@ fun HeadingTextComponent(value:String){
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+fun MyTextFieldComponent(onTextSelected: (String) -> Unit,
+                         errorStatus:Boolean = false
+){
+    val textValue = remember {
+        mutableStateOf("")
+    }
+    OutlinedTextField(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(ComponentShapes.small),
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            focusedBorderColor = Primary,
+            focusedLabelColor = Primary,
+            cursorColor = Primary,
+            containerColor = labelColor
+
+
+        ),
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+        value = textValue.value,
+        onValueChange = {
+            textValue.value = it
+            onTextSelected(it)
+        },
+        singleLine = true,
+        maxLines = 1,
+        isError = !errorStatus
+    )
+
+
+}
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
 fun MyTextFieldComponent(labelValue: String, painterResource: Painter,
                          onTextSelected: (String) -> Unit,
                          errorStatus:Boolean = false

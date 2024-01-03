@@ -51,20 +51,11 @@ class TripViewModel(private val tripRepository: TripRepository): ViewModel() {
             }
 
             is TripUIEvent.AddTripButtonClicked -> {
-                save()
+                TravelAppNavigate.navigateTo(Screen.ExploreScreen)
             }
         }
     }
 
-    private fun save() {
-        validateDataWithRules()
-        if(allValidationPassed.value) {
-            TravelAppNavigate.navigateTo(Screen.ExploreScreen)
-        }
-        else{
-            Log.d(TAG,addTripUIState.value.toString())
-        }
-    }
 
     private fun validateDataWithRules() {
         val countryResult = Validator.validateCountry(

@@ -20,8 +20,10 @@ import com.example.myapplication.components.ButtonComponent
 import com.example.myapplication.components.CenteredInRowTextField
 import com.example.myapplication.components.HeadingTextComponent
 import com.example.myapplication.components.LeftTextComponent
+import com.example.myapplication.components.MyTextFieldComponent
 import com.example.myapplication.data.TripUIEvent
 import com.example.myapplication.data.TripViewModel
+import com.example.myapplication.data.firebase.emailDb
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Preview
@@ -36,39 +38,45 @@ fun AddTripScreen(tripViewModel: TripViewModel = viewModel()){
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(color = Color.DarkGray)
+                .background(color = Color.White)
                 .padding(15.dp)
 
         ) {
                 HeadingTextComponent(value = "Add trip")
                 LeftTextComponent(value = "Country")
-                CenteredInRowTextField(
+            MyTextFieldComponent(
                     onTextSelected ={
                         tripViewModel.onEvent(TripUIEvent.CountryChanged(it))
-                })
+                },
+                errorStatus = tripViewModel.addTripUIState.value.countryError
+                )
                 LeftTextComponent(value = "City")
-                CenteredInRowTextField(
+            MyTextFieldComponent(
                     onTextSelected ={
                         tripViewModel.onEvent(TripUIEvent.CityChanged(it))
-                    }
+                    },
+                    errorStatus = tripViewModel.addTripUIState.value.cityError
                 )
                 LeftTextComponent(value = "Description")
-                CenteredInRowTextField(
+            MyTextFieldComponent(
                     onTextSelected ={
                         tripViewModel.onEvent(TripUIEvent.DescriptionChanged(it))
-                    }
+                    },
+                errorStatus = tripViewModel.addTripUIState.value.descriptionError
                 )
                 LeftTextComponent(value = "Attractions")
-                CenteredInRowTextField(
+            MyTextFieldComponent(
                     onTextSelected ={
                         tripViewModel.onEvent(TripUIEvent.AttractionsChanged(it))
-                    }
+                    },
+                errorStatus = tripViewModel.addTripUIState.value.attractionsError
                 )
                 LeftTextComponent(value = "Restaurants")
-                CenteredInRowTextField(
+            MyTextFieldComponent(
                     onTextSelected ={
                         tripViewModel.onEvent(TripUIEvent.RestaurantsChanged(it))
-                    }
+                    },
+                    errorStatus = tripViewModel.addTripUIState.value.restaurantsError
                 )
                 LeftTextComponent(value = "Photos")
 //                AddPhotosFromGallery()
@@ -76,7 +84,7 @@ fun AddTripScreen(tripViewModel: TripViewModel = viewModel()){
                 ButtonComponent(value = stringResource(id = R.string.save),
                     onButtonClicked = {
                         tripViewModel.onEvent(TripUIEvent.AddTripButtonClicked)
-                        tripViewModel.addTrip(tripViewModel.addTripUIState.value.email,tripViewModel.addTripUIState.value.country,tripViewModel.addTripUIState.value.description,tripViewModel.addTripUIState.value.city,tripViewModel.addTripUIState.value.attractions,tripViewModel.addTripUIState.value.restaurants)
+                        tripViewModel.addTrip(emailDb,tripViewModel.addTripUIState.value.country,tripViewModel.addTripUIState.value.description,tripViewModel.addTripUIState.value.city,tripViewModel.addTripUIState.value.attractions,tripViewModel.addTripUIState.value.restaurants)
                     },
                     isEnabled = true
                 )
