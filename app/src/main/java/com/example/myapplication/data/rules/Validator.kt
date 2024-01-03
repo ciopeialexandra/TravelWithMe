@@ -21,6 +21,31 @@ object Validator {
             (!passwordV.isNullOrEmpty()&&passwordV.length>=2)
         )
     }
+    fun validateDescription(descriptionV: String):ValidationResult{
+        return ValidationResult(
+            (!descriptionV.isNullOrEmpty()&&descriptionV.length>=3)
+        )
+    }
+    fun validateCountry(countryV: String):ValidationResult{
+        return ValidationResult(
+            (!countryV.isNullOrEmpty()&&countryV.length>=4)
+        )
+    }
+    fun validateCity(cityV: String):ValidationResult{
+        return ValidationResult(
+            (!cityV.isNullOrEmpty()&&cityV.length>=4)
+        )
+    }
+    fun validateAttractions(attractionsV: String):ValidationResult{
+        return ValidationResult(
+            (!attractionsV.isNullOrEmpty()&&attractionsV.length>=3)
+        )
+    }
+    fun validateRestaurants(restaurantsV: String):ValidationResult{
+        return ValidationResult(
+            (!restaurantsV.isNullOrEmpty()&&restaurantsV.length>=5)
+        )
+    }
     fun validatePrivacyPolicyAcceptance(statusValue: Boolean):ValidationResult {
         return ValidationResult(
             statusValue

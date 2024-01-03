@@ -79,7 +79,6 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.example.myapplication.ui.theme.PurpleGrey40
 @Composable
@@ -198,7 +197,7 @@ fun PasswordTextFieldComponent(labelValue: String, painterResource: Painter,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = ImeAction.Done),
         singleLine = true,
         maxLines = 1,
-        keyboardActions = KeyboardActions(){
+        keyboardActions = KeyboardActions{
                                            localFocusManager.clearFocus()
         },
         value = password.value,
@@ -215,7 +214,7 @@ fun PasswordTextFieldComponent(labelValue: String, painterResource: Painter,
             } else {
                 Icons.Filled.VisibilityOff
             }
-            var description = if (passwordVisible.value) {
+            val description = if (passwordVisible.value) {
                 "Hide password"
             } else {
                 "Show password"
@@ -439,7 +438,7 @@ fun RowScope.AddItem(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CenteredInRowTextField(onTextSelected: (String) -> Unit,) {
+fun CenteredInRowTextField(onTextSelected: (String) -> Unit) {
     var text by remember { mutableStateOf(TextFieldValue("")) }
 
     val backgroundColorModifier = Modifier.background(PurpleGrey40)
@@ -514,13 +513,5 @@ fun AddPhotosFromGallery(){
             }
         }
 
-    }
-}
-
-@Composable
-fun SaveButton(onButtonClicked : ()-> Unit){
-    Button(onClick = { /*TODO*/ },
-        modifier = Modifier.padding(top = 16.dp)){
-        Text(text = "Save")
     }
 }

@@ -28,8 +28,6 @@ class FirebaseUserStore : UserRepository {
                 val nodeValues = mutableListOf<UserNode>()
 
                 val children = p0.children
-                // TODO 15: Iterate through the children, get the node value and
-                //  add it to nodeValues.
                 for (child in children) {
                     val userNode = child.getValue(UserNode::class.java)
                     userNode?.let{nodeValues.add(userNode)}

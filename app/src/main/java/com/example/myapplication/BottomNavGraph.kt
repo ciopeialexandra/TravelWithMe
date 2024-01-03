@@ -4,15 +4,17 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.myapplication.data.TripViewModel
+import com.example.myapplication.data.firebase.FirebaseTripStore
 import com.example.myapplication.navigation.Screen
 import com.example.myapplication.navigation.TravelAppNavigate
 import com.example.myapplication.screens.AddTripScreen
-import com.example.myapplication.screens.ExploreScreen
 import com.example.myapplication.screens.ProfileScreen
 
 
 @Composable
 fun BottomNavGraph(navController: NavHostController){
+    lateinit var viewModel3: TripViewModel
     NavHost(
         navController = navController ,
         startDestination = BottomBarScreen.Explore.route
@@ -24,7 +26,8 @@ fun BottomNavGraph(navController: NavHostController){
 
         }
         composable(route = BottomBarScreen.Add.route){
-            AddTripScreen()
+            viewModel3  = TripViewModel(FirebaseTripStore())
+            AddTripScreen(viewModel3)
         }
         composable(route = BottomBarScreen.Search.route){
 

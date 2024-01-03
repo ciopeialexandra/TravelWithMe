@@ -20,7 +20,6 @@ import com.example.myapplication.screens.ProfileScreen
 import com.example.myapplication.screens.SignInScreen
 import com.example.myapplication.screens.SignUpScreen
 import com.example.myapplication.screens.TermsAndCondtionsScreen
-import com.example.myapplication.screens.TestScreen
 
 @Composable
 fun TravelApp(){
@@ -59,10 +58,6 @@ fun TravelApp(){
 
                 is Screen.ProfileScreen ->{
                     ProfileScreen()
-                }
-
-                is Screen.TestScreen -> {
-                    TestScreen(viewModel3)
                 }
             }
 
