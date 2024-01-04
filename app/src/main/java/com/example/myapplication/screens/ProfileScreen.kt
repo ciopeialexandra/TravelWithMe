@@ -38,6 +38,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
+import androidx.compose.ui.tooling.preview.Preview
 import com.example.myapplication.components.DCodeIcon
 import com.example.myapplication.components.FeatureList
 import com.example.myapplication.components.ImageTextList
@@ -69,6 +70,7 @@ val moreOptionsList = listOf(
     ExperimentalComposeUiApi::class,
     ExperimentalMaterial3Api::class
 )
+@Preview
 @Composable
 fun ProfileScreen() {
 

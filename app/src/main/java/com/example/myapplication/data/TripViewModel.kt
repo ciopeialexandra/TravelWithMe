@@ -2,16 +2,30 @@ package com.example.myapplication.data
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.myapplication.data.rules.Validator
 import com.example.myapplication.navigation.Screen
 import com.example.myapplication.navigation.TravelAppNavigate
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 
 class TripViewModel(private val tripRepository: TripRepository): ViewModel() {
     private val TAG = TripViewModel::class.simpleName
     var addTripUIState = mutableStateOf(TripUIState())
     private var allValidationPassed = mutableStateOf(false)
     val tripListState: Flow<List<Trip>> by lazy {  tripRepository.getAll() }
+    var tripUIState = mutableStateOf(TripUIState())
+
+    init {
+        viewModelScope.launch {
+            tripUIState.value = tripUIState.value.copy(allTrips = tripRepository.getAll())
+        }
+    }
+//init {
+//    viewModelScope.launch {
+//        tripListState.value = tripListState.value.copy(allTrips = tripRepository.getAll())
+//    }
+//}
 
     fun findTrip(email: String) {
         tripRepository.findTrip(email)
@@ -64,6 +78,13 @@ class TripViewModel(private val tripRepository: TripRepository): ViewModel() {
 
             is TripUIEvent.AddTripButtonClicked -> {
                 TravelAppNavigate.navigateTo(Screen.ExploreScreen)
+            }
+
+            is TripUIEvent.TripClicked -> {
+                addTripUIState.value = addTripUIState.value.copy(selectedTrip = event.trip)
+            }
+            is TripUIEvent.BackButtonClicked -> {
+                addTripUIState.value = addTripUIState.value.copy(selectedTrip = null)
             }
         }
     }
