@@ -79,9 +79,17 @@ import androidx.compose.ui.text.input.TextFieldValue
 import coil.compose.rememberAsyncImagePainter
 import com.example.myapplication.data.firebase.uploadImageToFirebase
 import com.example.myapplication.ui.theme.PurpleGrey40
-
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.ui.layout.ContentScale
+import androidx.navigation.NavController
+import coil.compose.rememberImagePainter
 @Composable
-fun NormalTextComponent(value:String){
+fun NormalTextComponent(value:String,direction:String){
     Text(text = value,
         modifier = Modifier
             .fillMaxWidth()
@@ -92,7 +100,9 @@ fun NormalTextComponent(value:String){
             fontStyle = FontStyle.Normal
         ),
         color = Color.Black,
-        textAlign = TextAlign.Center
+        textAlign = if (direction == "Center") TextAlign.Center
+        else if (direction == "Left") TextAlign.Left
+        else TextAlign.Right
 
     )
 }
@@ -231,6 +241,7 @@ fun PasswordTextFieldComponent(labelValue: String, painterResource: Painter,
         singleLine = true,
         maxLines = 1,
         keyboardActions = KeyboardActions{
+
                                            localFocusManager.clearFocus()
         },
         value = password.value,
@@ -283,14 +294,14 @@ fun CheckboxComponent(onTextSelected: (String) -> Unit, onCheckedChanged: (Boole
 @Composable
 fun ClickableTextComponent(onTextSelected: (String) -> Unit){
     val initialText = "By continuing this you accept our "
-    val PrivacyPolicyText ="Privacy Policy "
+    val privacyPolicyText ="Privacy Policy "
     val andText = "and "
     val termText = "Term of Use"
     val annotatedText = buildAnnotatedString {
         append(initialText)
         withStyle(style = SpanStyle(color = Primary)) {
-            pushStringAnnotation(tag = PrivacyPolicyText, annotation = PrivacyPolicyText)
-            append(PrivacyPolicyText)
+            pushStringAnnotation(tag = privacyPolicyText, annotation = privacyPolicyText)
+            append(privacyPolicyText)
         }
         append(andText)
         withStyle(style = SpanStyle(color = Primary)) {
@@ -302,7 +313,7 @@ fun ClickableTextComponent(onTextSelected: (String) -> Unit){
             offset->annotatedText.getStringAnnotations(offset,offset)
         .firstOrNull()?.also {span->
             Log.d("ClickableTextComponent","{${span.item}}")
-            if((span.item==termText)||(span.item==PrivacyPolicyText)){
+            if((span.item==termText)||(span.item==privacyPolicyText)){
                 onTextSelected(span.item)
             }
         }
@@ -471,6 +482,7 @@ fun RowScope.AddItem(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CenteredInRowTextField(onTextSelected: (String) -> Unit) {
+
     var text by remember { mutableStateOf(TextFieldValue("")) }
 
     val backgroundColorModifier = Modifier.background(PurpleGrey40)

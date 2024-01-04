@@ -1,6 +1,7 @@
 package com.example.myapplication.screens
 
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -39,7 +40,7 @@ fun SignUpScreen(signUpViewModel: SignUpViewModel = viewModel()) {
             .background(color = Color.White))
     {
         Column(modifier = Modifier.fillMaxSize()) {
-            NormalTextComponent(value = stringResource(R.string.hello))
+            NormalTextComponent(value = stringResource(R.string.hello),"Center")
             HeadingTextComponent(value = stringResource(R.string.signup))
             Spacer(modifier = Modifier.height(20.dp))
             MyTextFieldComponent(labelValue = stringResource(R.string.labelValue),

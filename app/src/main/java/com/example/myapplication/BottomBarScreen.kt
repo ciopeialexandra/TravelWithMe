@@ -1,11 +1,11 @@
 package com.example.myapplication
-
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.Explore
 import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.outlined.Explore
 import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class BottomBarScreen (
@@ -16,28 +16,28 @@ sealed class BottomBarScreen (
     object Explore: BottomBarScreen(
         route = "home",
         title = "Home",
-        icon = Icons.Default.Explore
+        icon = Icons.Outlined.Explore
     )
 
     object Story: BottomBarScreen(
         route = "story",
         title = "Story",
-        icon = Icons.Default.Image
+        icon = Icons.Filled.Image
     )
     object Add: BottomBarScreen(
         route = "add",
         title = "Add",
-        icon = Icons.Default.AddCircle
+        icon = Icons.Filled.AddCircle
     )
     object Search: BottomBarScreen(
         route = "search",
         title = "Search",
-        icon = Icons.Default.Search
+        icon = Icons.Filled.Search
     )
     object Profile: BottomBarScreen(
         route = "profile",
         title = "Profile",
-        icon = Icons.Default.Person
+        icon = Icons.Filled.Person
     )
 
 }
