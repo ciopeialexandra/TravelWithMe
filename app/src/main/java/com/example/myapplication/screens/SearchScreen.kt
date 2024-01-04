@@ -37,72 +37,72 @@ import com.example.myapplication.data.TripUIEvent
 import com.example.myapplication.data.TripUIState
 import com.example.myapplication.data.firebase.uploadImageToFirebase
 
-//@OptIn(ExperimentalMaterial3Api::class)
-//@Composable
-//fun SearchScreen(tripViewModel: TripViewModel = viewModel()){
-//    Surface (
-//        modifier = Modifier
-//            .fillMaxSize()
-//            .padding(10.dp)
-//            .background(color = Color.White)
-//    ){
-//        Column(){
-//            TopAppBar(
-//                title = {
-//                    Text(text = "Trips")
-//                },
-////                Modifier.background(White)
-//            )
-//
-//            SetData(tripViewModel)
-//        }
-//    }
-//}
-//
-//
-//@Composable
-//fun SetData(tripViewModel: TripViewModel) {
-//    val trips = tripViewModel.tripListState.collectAsState(emptyList()).value
-//    ShowData(trips)
-//}
-//
-//@Composable
-//fun ShowData(trips: List<Trip>) {
-//    LazyColumn{
-//        items(trips){ each ->
-//            CardItem(each)
-//        }
-//    }
-//}
-//
-//@Composable
-//fun CardItem(trip: Trip) {
-//    Card(
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .height(150.dp)
-//            .padding(10.dp)
-//    ){
-//        Box(modifier = Modifier.fillMaxSize()){
-//            Image(
-//                painter = rememberImagePainter(trip.images),
-//                modifier = Modifier.fillMaxSize(),
-//                contentDescription = "Image",
-//                contentScale = ContentScale.FillWidth
-//            )
-//
-//            Text(
-//                text = trip.country!!,
-//                modifier = Modifier
-//                    .align(Alignment.BottomCenter)
-//                    .fillMaxWidth()
-//                    .background(color = White),
-//                textAlign = TextAlign.Center,
-//                color = White
-//            )
-//        }
-//    }
-//}
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SearchScreen1(tripViewModel: TripViewModel = viewModel()){
+    Surface (
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(10.dp)
+            .background(color = Color.White)
+    ){
+        Column(){
+            TopAppBar(
+                title = {
+                    Text(text = "Trips")
+                },
+//                Modifier.background(White)
+            )
+
+            SetData(tripViewModel)
+        }
+    }
+}
+
+
+@Composable
+fun SetData(tripViewModel: TripViewModel) {
+    val trips = tripViewModel.tripListState.collectAsState(emptyList()).value
+    ShowData(trips)
+}
+
+@Composable
+fun ShowData(trips: List<Trip>) {
+    LazyColumn{
+        items(trips){ each ->
+            CardItem(each)
+        }
+    }
+}
+
+@Composable
+fun CardItem(trip: Trip) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(150.dp)
+            .padding(10.dp)
+    ){
+        Box(modifier = Modifier.fillMaxSize()){
+            Image(
+                painter = rememberImagePainter(trip.images),
+                modifier = Modifier.fillMaxSize(),
+                contentDescription = "Image",
+                contentScale = ContentScale.FillWidth
+            )
+
+            Text(
+                text = trip.country!!,
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+                    .background(color = White),
+                textAlign = TextAlign.Center,
+                color = White
+            )
+        }
+    }
+}
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
