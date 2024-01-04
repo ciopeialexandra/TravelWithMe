@@ -11,14 +11,15 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myapplication.R
 import com.example.myapplication.components.ButtonComponent
 import com.example.myapplication.components.HeadingTextComponent
 import com.example.myapplication.components.LeftTextComponent
-import com.example.myapplication.components.LoadImage
 import com.example.myapplication.components.MyTextFieldComponent
+import com.example.myapplication.components.NormalTextComponent
 import com.example.myapplication.components.ShowImage
 import com.example.myapplication.data.TripUIEvent
 import com.example.myapplication.data.TripViewModel
@@ -72,12 +73,14 @@ fun AddTripScreen(tripViewModel: TripViewModel = viewModel()){
                     },
                     errorStatus = tripViewModel.addTripUIState.value.restaurantsError
                 )
-                LeftTextComponent(value = "Photos")
+
+                Spacer(modifier = Modifier.height(20.dp))
+                NormalTextComponent(value = "Photos","Left")
                 ShowImage()
                 ButtonComponent(value = stringResource(id = R.string.save),
                     onButtonClicked = {
                         tripViewModel.onEvent(TripUIEvent.AddTripButtonClicked)
-                        tripViewModel.addTrip(emailDb,tripViewModel.addTripUIState.value.country,tripViewModel.addTripUIState.value.description,tripViewModel.addTripUIState.value.city,tripViewModel.addTripUIState.value.attractions,tripViewModel.addTripUIState.value.restaurants)
+                        tripViewModel.addTrip(emailDb,tripViewModel.addTripUIState.value.country,tripViewModel.addTripUIState.value.description,tripViewModel.addTripUIState.value.city,tripViewModel.addTripUIState.value.attractions,tripViewModel.addTripUIState.value.restaurants,tripViewModel.addTripUIState.value.images)
                     },
                     isEnabled = true
                 )

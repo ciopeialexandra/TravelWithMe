@@ -60,7 +60,6 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.7.0")
     implementation(platform("androidx.compose:compose-bom:2023.03.00"))
     implementation("io.coil-kt:coil-compose:2.4.0")
-    implementation ("io.coil-kt:coil-compose:1.3.2")
     implementation("androidx.activity:activity-ktx:1.8.2")
     implementation ("dev.chrisbanes.accompanist:accompanist-glide:0.4.2")
     implementation ("com.github.bumptech.glide:glide:4.16.0")

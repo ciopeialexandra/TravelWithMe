@@ -18,5 +18,6 @@
     <string name="description">Description</string>
     <string name="attractions">Attractions</string>
     <string name="restaurnats">Restaurnats</string>
+    <string name="txt_profile">My Profile</string>
 
 </resources>

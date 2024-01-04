@@ -6,6 +6,7 @@ sealed class TripUIEvent {
     data class CityChanged(val city: String) : TripUIEvent()
     data class AttractionsChanged(val attractions: String) : TripUIEvent()
     data class RestaurantsChanged(val restaurants: String) : TripUIEvent()
+    data class PhotoAdded(val images:List<String>):TripUIEvent()
 
     object AddTripButtonClicked : TripUIEvent()
 }

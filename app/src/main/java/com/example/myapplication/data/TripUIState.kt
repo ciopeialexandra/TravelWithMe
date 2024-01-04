@@ -1,5 +1,7 @@
 package com.example.myapplication.data
 
+import coil.compose.AsyncImagePainter
+
 data class TripUIState (
     var email: String = "",
     var country: String = "",
@@ -8,6 +10,7 @@ data class TripUIState (
     var city: String = "",
     var attractions: String = "",
     var restaurants: String = "",
+    var images:List<String> = emptyList(),
 
     var countryError: Boolean = false,
     var descriptionError: Boolean = false,

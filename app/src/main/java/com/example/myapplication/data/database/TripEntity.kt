@@ -22,6 +22,9 @@ data class TripEntity(
     val attractions: String,
 
     @ColumnInfo(name = "restaurants")
-    val restaurants: String
+    val restaurants: String,
+
+    @ColumnInfo(name = "images")
+    val images: List<String>
 
 )

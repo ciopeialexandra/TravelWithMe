@@ -79,15 +79,6 @@ import androidx.compose.ui.text.input.TextFieldValue
 import coil.compose.rememberAsyncImagePainter
 import com.example.myapplication.data.firebase.uploadImageToFirebase
 import com.example.myapplication.ui.theme.PurpleGrey40
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.ui.layout.ContentScale
-import androidx.navigation.NavController
-import coil.compose.rememberImagePainter
 @Composable
 fun NormalTextComponent(value:String,direction:String){
     Text(text = value,
@@ -481,7 +472,7 @@ fun RowScope.AddItem(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CenteredInRowTextField(onTextSelected: (String) -> Unit) {
+fun CenteredInRowTextField() {
 
     var text by remember { mutableStateOf(TextFieldValue("")) }
 
@@ -543,7 +534,7 @@ fun LoadImage(
         Button(onClick = {
             launcher.launch("image/*")
         }) {
-            Text(text = "Izaberi sliku")
+            Text(text = "Upload")
         }
     }
     Log.d("DEBUG", "IMAGE URI $imageUri")

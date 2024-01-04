@@ -17,8 +17,8 @@ class TripViewModel(private val tripRepository: TripRepository): ViewModel() {
     fun findTrip(email: String) {
         tripRepository.findTrip(email)
     }
-    fun addTrip(email: String,country: String,description: String,city: String,attractions: String,restaurants: String) {
-        tripRepository.addTrip(Trip(email,country,description,city,attractions,restaurants))
+    fun addTrip(email: String,country: String,description: String,city: String,attractions: String,restaurants: String, images:List<String>) {
+        tripRepository.addTrip(Trip(email,country,description,city,attractions,restaurants,images))
     }
     fun onEvent(event : TripUIEvent) {
         validateDataWithRules()
@@ -52,6 +52,9 @@ class TripViewModel(private val tripRepository: TripRepository): ViewModel() {
 
             is TripUIEvent.AddTripButtonClicked -> {
                 TravelAppNavigate.navigateTo(Screen.ExploreScreen)
+            }
+            is TripUIEvent.PhotoAdded->{
+                //images = event.images
             }
         }
     }

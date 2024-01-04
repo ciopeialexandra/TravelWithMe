@@ -43,7 +43,7 @@ import com.example.myapplication.components.FeatureList
 import com.example.myapplication.components.ImageTextList
 import com.example.myapplication.components.MyIcons
 import com.example.myapplication.components.ProfilePopularList
-import com.example.myapplication.data.firebase.emailUser
+import com.example.myapplication.data.firebase.emailDb
 import com.example.myapplication.navigation.Screen
 import com.example.myapplication.navigation.TravelAppNavigate
 
@@ -57,7 +57,7 @@ val profilePopularList = listOf(
 
 val imageTextList = listOf(
     ImageTextList(DCodeIcon.ImageVectorIcon(MyIcons.Location), "Timisoara, Romania"),
-    ImageTextList(DCodeIcon.ImageVectorIcon(MyIcons.Email), emailUser),
+    ImageTextList(DCodeIcon.ImageVectorIcon(MyIcons.Email), emailDb),
 )
 
 val moreOptionsList = listOf(

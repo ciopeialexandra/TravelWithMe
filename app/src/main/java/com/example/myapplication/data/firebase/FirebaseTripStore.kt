@@ -84,11 +84,11 @@ class FirebaseTripStore : TripRepository {
 
 
     fun Trip.toFirebaseModel(): TripNode {
-        return TripNode(email,country,description,city,attractions,restaurants)
+        return TripNode(email,country,description,city,attractions,restaurants,images)
     }
 
     fun TripNode.toDomainModel(): Trip {
-        return Trip(email,country,description,city,attractions,restaurants)
+        return Trip(email,country,description,city,attractions,restaurants,images)
     }
 
 }
