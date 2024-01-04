@@ -17,10 +17,11 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myapplication.R
 import com.example.myapplication.components.ButtonComponent
-import com.example.myapplication.components.CenteredInRowTextField
 import com.example.myapplication.components.HeadingTextComponent
 import com.example.myapplication.components.LeftTextComponent
+import com.example.myapplication.components.LoadImage
 import com.example.myapplication.components.MyTextFieldComponent
+import com.example.myapplication.components.ShowImage
 import com.example.myapplication.data.TripUIEvent
 import com.example.myapplication.data.TripViewModel
 import com.example.myapplication.data.firebase.emailDb
@@ -43,44 +44,39 @@ fun AddTripScreen(tripViewModel: TripViewModel = viewModel()){
 
         ) {
                 HeadingTextComponent(value = "Add trip")
-                LeftTextComponent(value = "Country")
-            MyTextFieldComponent(
+            Spacer(modifier = Modifier.height(80.dp))
+            MyTextFieldComponent(labelValue = stringResource(id = R.string.country),
                     onTextSelected ={
                         tripViewModel.onEvent(TripUIEvent.CountryChanged(it))
                 },
                 errorStatus = tripViewModel.addTripUIState.value.countryError
                 )
-                LeftTextComponent(value = "City")
-            MyTextFieldComponent(
+            MyTextFieldComponent(labelValue = stringResource(id = R.string.city),
                     onTextSelected ={
                         tripViewModel.onEvent(TripUIEvent.CityChanged(it))
                     },
                     errorStatus = tripViewModel.addTripUIState.value.cityError
                 )
-                LeftTextComponent(value = "Description")
-            MyTextFieldComponent(
+            MyTextFieldComponent(labelValue = stringResource(id = R.string.description),
                     onTextSelected ={
                         tripViewModel.onEvent(TripUIEvent.DescriptionChanged(it))
                     },
                 errorStatus = tripViewModel.addTripUIState.value.descriptionError
                 )
-                LeftTextComponent(value = "Attractions")
-            MyTextFieldComponent(
+            MyTextFieldComponent(labelValue = stringResource(id = R.string.attractions),
                     onTextSelected ={
                         tripViewModel.onEvent(TripUIEvent.AttractionsChanged(it))
                     },
                 errorStatus = tripViewModel.addTripUIState.value.attractionsError
                 )
-                LeftTextComponent(value = "Restaurants")
-            MyTextFieldComponent(
+            MyTextFieldComponent(labelValue = stringResource(id = R.string.restaurnats),
                     onTextSelected ={
                         tripViewModel.onEvent(TripUIEvent.RestaurantsChanged(it))
                     },
                     errorStatus = tripViewModel.addTripUIState.value.restaurantsError
                 )
                 LeftTextComponent(value = "Photos")
-//                AddPhotosFromGallery()
-                Spacer(modifier = Modifier.height(40.dp))
+                ShowImage()
                 ButtonComponent(value = stringResource(id = R.string.save),
                     onButtonClicked = {
                         tripViewModel.onEvent(TripUIEvent.AddTripButtonClicked)

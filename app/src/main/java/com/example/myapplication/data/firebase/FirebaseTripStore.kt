@@ -1,18 +1,26 @@
 package com.example.myapplication.data.firebase
 
+import android.net.Uri
 import android.util.Log
 import com.example.myapplication.data.Trip
 import com.example.myapplication.data.TripRepository
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
+import com.google.firebase.Firebase
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.database
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.UploadTask
+import com.google.firebase.storage.storage
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import java.util.UUID
 
 class FirebaseTripStore : TripRepository {
-
     private val database = FirebaseDatabase.getInstance().reference.child("trip")
 
     override fun getAll(): Flow<List<Trip>> = callbackFlow {

@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 class TripViewModel(private val tripRepository: TripRepository): ViewModel() {
     private val TAG = TripViewModel::class.simpleName
     var addTripUIState = mutableStateOf(TripUIState())
-    var allValidationPassed = mutableStateOf(false)
+    private var allValidationPassed = mutableStateOf(false)
     val tripListState: Flow<List<Trip>> by lazy {  tripRepository.getAll() }
 
     fun findTrip(email: String) {

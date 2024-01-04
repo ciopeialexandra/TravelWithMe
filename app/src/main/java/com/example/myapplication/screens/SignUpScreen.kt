@@ -1,7 +1,6 @@
 package com.example.myapplication.screens
 
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -74,13 +73,12 @@ fun SignUpScreen(signUpViewModel: SignUpViewModel = viewModel()) {
                 },
                 errorStatus = signUpViewModel.registrationUIState.value.passwordError
             )
-            CheckboxComponent(value = stringResource(id = R.string.terms),
-                onTextSelected = {
-                TravelAppNavigate.navigateTo(Screen.TermsAndConditionsScreen)
-            },
-                onCheckedChanged = {
-                    signUpViewModel.onEvent(SignUpUIEvent.PrivacyPolicyCheckBoxClicked(it))
-                })
+            CheckboxComponent(onTextSelected = {
+            TravelAppNavigate.navigateTo(Screen.TermsAndConditionsScreen)
+        }
+            ) {
+                signUpViewModel.onEvent(SignUpUIEvent.PrivacyPolicyCheckBoxClicked(it))
+            }
             Spacer(modifier = Modifier.height(40.dp))
             ButtonComponent(value = stringResource(id = R.string.register),
                 onButtonClicked = {
