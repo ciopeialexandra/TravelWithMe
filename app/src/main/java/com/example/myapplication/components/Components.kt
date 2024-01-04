@@ -79,6 +79,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import coil.compose.rememberAsyncImagePainter
 import com.example.myapplication.data.firebase.uploadImageToFirebase
 import com.example.myapplication.ui.theme.PurpleGrey40
+
 @Composable
 fun NormalTextComponent(value:String,direction:String){
     Text(text = value,
@@ -91,9 +92,7 @@ fun NormalTextComponent(value:String,direction:String){
             fontStyle = FontStyle.Normal
         ),
         color = Color.Black,
-        textAlign = if (direction == "Center") TextAlign.Center
-        else if (direction == "Left") TextAlign.Left
-        else TextAlign.Right
+        textAlign = if (direction == "Center") TextAlign.Center else if (direction == "Left") TextAlign.Left else TextAlign.Right
 
     )
 }

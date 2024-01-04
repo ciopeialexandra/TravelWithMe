@@ -17,13 +17,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myapplication.R
 import com.example.myapplication.components.ButtonComponent
 import com.example.myapplication.components.HeadingTextComponent
-import com.example.myapplication.components.LeftTextComponent
 import com.example.myapplication.components.MyTextFieldComponent
 import com.example.myapplication.components.NormalTextComponent
 import com.example.myapplication.components.ShowImage
 import com.example.myapplication.data.TripUIEvent
 import com.example.myapplication.data.TripViewModel
 import com.example.myapplication.data.firebase.emailDb
+import com.example.myapplication.data.firebase.fileName
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -80,7 +80,8 @@ fun AddTripScreen(tripViewModel: TripViewModel = viewModel()){
                 ButtonComponent(value = stringResource(id = R.string.save),
                     onButtonClicked = {
                         tripViewModel.onEvent(TripUIEvent.AddTripButtonClicked)
-                        tripViewModel.addTrip(emailDb,tripViewModel.addTripUIState.value.country,tripViewModel.addTripUIState.value.description,tripViewModel.addTripUIState.value.city,tripViewModel.addTripUIState.value.attractions,tripViewModel.addTripUIState.value.restaurants,tripViewModel.addTripUIState.value.images)
+                        tripViewModel.addTrip(emailDb,tripViewModel.addTripUIState.value.country,tripViewModel.addTripUIState.value.description,tripViewModel.addTripUIState.value.city,tripViewModel.addTripUIState.value.attractions,tripViewModel.addTripUIState.value.restaurants,
+                            fileName)
                     },
                     isEnabled = true
                 )

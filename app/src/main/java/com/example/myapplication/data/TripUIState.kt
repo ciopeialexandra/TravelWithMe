@@ -1,8 +1,8 @@
 package com.example.myapplication.data
 
-import coil.compose.AsyncImagePainter
+import android.net.Uri
 
-data class TripUIState (
+data class TripUIState(
     var email: String = "",
     var country: String = "",
     var description: String = "",
@@ -10,7 +10,7 @@ data class TripUIState (
     var city: String = "",
     var attractions: String = "",
     var restaurants: String = "",
-    var images:List<String> = emptyList(),
+    var images: String = "",
 
     var countryError: Boolean = false,
     var descriptionError: Boolean = false,

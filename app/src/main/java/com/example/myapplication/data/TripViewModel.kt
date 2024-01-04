@@ -1,6 +1,5 @@
 package com.example.myapplication.data
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.myapplication.data.rules.Validator
@@ -17,7 +16,15 @@ class TripViewModel(private val tripRepository: TripRepository): ViewModel() {
     fun findTrip(email: String) {
         tripRepository.findTrip(email)
     }
-    fun addTrip(email: String,country: String,description: String,city: String,attractions: String,restaurants: String, images:List<String>) {
+    fun addTrip(
+        email: String,
+        country: String,
+        description: String,
+        city: String,
+        attractions: String,
+        restaurants: String,
+        images: String
+    ) {
         tripRepository.addTrip(Trip(email,country,description,city,attractions,restaurants,images))
     }
     fun onEvent(event : TripUIEvent) {
@@ -49,12 +56,14 @@ class TripViewModel(private val tripRepository: TripRepository): ViewModel() {
                     restaurants = event.restaurants
                 )
             }
+            is TripUIEvent.PhotoAdded->{
+                addTripUIState.value = addTripUIState.value.copy(
+                images = event.images
+                )
+            }
 
             is TripUIEvent.AddTripButtonClicked -> {
                 TravelAppNavigate.navigateTo(Screen.ExploreScreen)
-            }
-            is TripUIEvent.PhotoAdded->{
-                //images = event.images
             }
         }
     }
