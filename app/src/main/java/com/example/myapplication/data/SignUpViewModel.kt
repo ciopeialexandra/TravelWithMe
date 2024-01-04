@@ -109,4 +109,15 @@ class SignUpViewModel(private val userRepository: UserRepository) :ViewModel() {
                 Log.d(TAG,"exception = ${it.localizedMessage}")
             }
     }
+    fun logOut(){
+        val firebaseAuth = FirebaseAuth.getInstance()
+
+        firebaseAuth.signOut()
+        val authStateListener = AuthStateListener{
+            if(it.currentUser == null){
+
+            }
+        }
+        firebaseAuth.addAuthStateListener(authStateListener)
+    }
 }

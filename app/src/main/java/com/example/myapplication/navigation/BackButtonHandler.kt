@@ -13,8 +13,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.platform.LocalLifecycleOwner
 
-private val LocalBackDispatcher = staticCompositionLocalOf <OnBackPressedDispatcher?>{ null }
-
 private class ComposableBackNavigationHandler(enabled:Boolean) : OnBackPressedCallback(enabled){
     lateinit var onBackPressed: ()->Unit
     override fun handleOnBackPressed() {

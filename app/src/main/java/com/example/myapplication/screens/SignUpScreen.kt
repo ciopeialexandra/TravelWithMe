@@ -74,13 +74,12 @@ fun SignUpScreen(signUpViewModel: SignUpViewModel = viewModel()) {
                 },
                 errorStatus = signUpViewModel.registrationUIState.value.passwordError
             )
-            CheckboxComponent(value = stringResource(id = R.string.terms),
-                onTextSelected = {
-                TravelAppNavigate.navigateTo(Screen.TermsAndConditionsScreen)
-            },
-                onCheckedChanged = {
-                    signUpViewModel.onEvent(SignUpUIEvent.PrivacyPolicyCheckBoxClicked(it))
-                })
+            CheckboxComponent(onTextSelected = {
+            TravelAppNavigate.navigateTo(Screen.TermsAndConditionsScreen)
+        }
+            ) {
+                signUpViewModel.onEvent(SignUpUIEvent.PrivacyPolicyCheckBoxClicked(it))
+            }
             Spacer(modifier = Modifier.height(40.dp))
             ButtonComponent(value = stringResource(id = R.string.register),
                 onButtonClicked = {

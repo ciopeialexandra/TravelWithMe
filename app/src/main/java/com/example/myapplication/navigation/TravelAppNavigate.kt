@@ -12,6 +12,7 @@ sealed class Screen {
     object MainScreen : Screen()
     object AddTripScreen : Screen()
     object ExploreScreen : Screen()
+    object ProfileScreen : Screen()
 }
 
 object TravelAppNavigate {

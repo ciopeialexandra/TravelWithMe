@@ -12,7 +12,8 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 
-var emailUser = ""
+var emailDb = ""
+
 class FirebaseUserStore : UserRepository {
 
     private val database = FirebaseDatabase.getInstance().reference.child("user")
@@ -27,8 +28,6 @@ class FirebaseUserStore : UserRepository {
                 val nodeValues = mutableListOf<UserNode>()
 
                 val children = p0.children
-                // TODO 15: Iterate through the children, get the node value and
-                //  add it to nodeValues.
                 for (child in children) {
                     val userNode = child.getValue(UserNode::class.java)
                     userNode?.let{nodeValues.add(userNode)}
@@ -63,10 +62,11 @@ class FirebaseUserStore : UserRepository {
                             child.getValue(UserNode::class.java)?.firstName + " " +child.getValue(
                                 UserNode::class.java
                             )?.lastName
-                        emailUser = email
+                        emailDb = child.getValue(UserNode::class.java)?.email.toString()
                     }
                 }
                 nameUser = fullname
+
             }
         }
         database.addListenerForSingleValueEvent(listener)

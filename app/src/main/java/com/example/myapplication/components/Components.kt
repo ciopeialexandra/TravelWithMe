@@ -1,5 +1,7 @@
 package com.example.myapplication.components
 
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -35,7 +37,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalFocusManager
@@ -64,25 +65,29 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.material3.TextField
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.TextFieldValue
+import coil.compose.rememberAsyncImagePainter
+import com.example.myapplication.data.firebase.uploadImageToFirebase
+import com.example.myapplication.ui.theme.PurpleGrey40
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material3.TextField
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.navigation.NavController
-import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
-import com.example.myapplication.ui.theme.PurpleGrey40
 @Composable
 fun NormalTextComponent(value:String,direction:String){
     Text(text = value,
@@ -132,6 +137,40 @@ fun HeadingTextComponent(value:String){
         textAlign = TextAlign.Center
 
     )
+}
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun MyTextFieldComponent(labelValue: String,onTextSelected: (String) -> Unit,
+                         errorStatus:Boolean = false
+){
+    val textValue = remember {
+        mutableStateOf("")
+    }
+    OutlinedTextField(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(ComponentShapes.small),
+        label = {Text(text = labelValue)},
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            focusedBorderColor = Primary,
+            focusedLabelColor = Primary,
+            cursorColor = Primary,
+            containerColor = labelColor
+
+
+        ),
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+        value = textValue.value,
+        onValueChange = {
+            textValue.value = it
+            onTextSelected(it)
+        },
+        singleLine = true,
+        maxLines = 1,
+        isError = !errorStatus
+    )
+
+
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -201,7 +240,8 @@ fun PasswordTextFieldComponent(labelValue: String, painterResource: Painter,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = ImeAction.Done),
         singleLine = true,
         maxLines = 1,
-        keyboardActions = KeyboardActions(){
+        keyboardActions = KeyboardActions{
+
                                            localFocusManager.clearFocus()
         },
         value = password.value,
@@ -234,8 +274,7 @@ fun PasswordTextFieldComponent(labelValue: String, painterResource: Painter,
 }
 
 @Composable
-fun CheckboxComponent(value:String ,onTextSelected:(String)->Unit,
-                      onCheckedChanged:(Boolean) -> Unit){
+fun CheckboxComponent(onTextSelected: (String) -> Unit, onCheckedChanged: (Boolean) -> Unit){
     Row (modifier = Modifier
         .fillMaxWidth()
         .heightIn(56.dp),
@@ -248,12 +287,12 @@ fun CheckboxComponent(value:String ,onTextSelected:(String)->Unit,
             checkedState.value = !checkedState.value
             onCheckedChanged.invoke(it)
         } )
-        ClickableTextComponent(value = value,onTextSelected)
+        ClickableTextComponent(onTextSelected)
     }
 
 }
 @Composable
-fun ClickableTextComponent(value:String,onTextSelected:(String)->Unit){
+fun ClickableTextComponent(onTextSelected: (String) -> Unit){
     val initialText = "By continuing this you accept our "
     val privacyPolicyText ="Privacy Policy "
     val andText = "and "
@@ -298,7 +337,7 @@ fun ButtonComponent(value: String,onButtonClicked : ()-> Unit,
             .fillMaxWidth()
             .heightIn(48.dp)
             .background(
-                brush = Brush.horizontalGradient(listOf(Color.Black, Primary)),
+                color = Primary,
                 shape = RoundedCornerShape(50.dp)
             ),
             contentAlignment = Alignment.Center
@@ -442,7 +481,8 @@ fun RowScope.AddItem(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CenteredInRowTextField() {
+fun CenteredInRowTextField(onTextSelected: (String) -> Unit) {
+
     var text by remember { mutableStateOf(TextFieldValue("")) }
 
     val backgroundColorModifier = Modifier.background(PurpleGrey40)
@@ -460,7 +500,7 @@ fun CenteredInRowTextField() {
                 .border(0.7.dp, PurpleGrey40, shape = RoundedCornerShape(8.dp)) // Bordură
                 .padding(8.dp) // Spațiu pentru text în interior
                 .widthIn(max = 300.dp) // Lățimea maximă pentru text field
-                .height(56.dp) // Înălțimea text field-ului
+                .height(36.dp) // Înălțimea text field-ului
                 .then(backgroundColorModifier)
         ) {
             TextField(
@@ -478,44 +518,62 @@ fun CenteredInRowTextField() {
         Spacer(modifier = Modifier.weight(1f)) // Adaugă un spațiu flexibil în dreapta text field-ului
     }
 }
+@Composable
+fun LoadImage(
+    bitmap: MutableState<Bitmap?>
+) {
+    var imageUri by remember {
+        mutableStateOf<Uri?>(null)
+    }
+    val context = LocalContext.current
+
+    val launcher = rememberLauncherForActivityResult(
+        contract =
+        ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        imageUri = uri
+    }
+
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(6.dp)
+    ) {
+        Button(onClick = {
+            launcher.launch("image/*")
+        }) {
+            Text(text = "Izaberi sliku")
+        }
+    }
+    Log.d("DEBUG", "IMAGE URI $imageUri")
+    imageUri?.let { uploadImageToFirebase(it) }
+    imageUri?.let {
+        val source = ImageDecoder
+            .createSource(context.contentResolver, it)
+        bitmap.value = ImageDecoder.decodeBitmap(source)
+    }
+}
 
 @Composable
-fun AddPhotosFromGallery(){
-    var selectImages by remember { mutableStateOf(listOf<Uri>()) }
+fun ShowImage() {
+    val bitmap = remember {
+        mutableStateOf<Bitmap?>(null)
+    }
 
-    val galleryLauncher =
-        rememberLauncherForActivityResult(ActivityResultContracts.GetMultipleContents()) {
-            selectImages = it
-        }
+    if (bitmap.value != null) {
+        Image(
+            painter = rememberAsyncImagePainter(bitmap.value),
+            contentDescription = null,
+            modifier = Modifier.size(80.dp)
+        )
+    }
 
     Row(
-        Modifier.fillMaxSize(),
-//            horizontalAlignment = Alignment.CenterHorizontally
+        modifier = Modifier
+            .padding(12.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Button(
-            onClick = { galleryLauncher.launch("image/*") },
-            modifier = Modifier
-                .wrapContentSize()
-                .padding(10.dp)
-        ) {
-            Text(text = "Pick Image From Gallery")
-        }
-
-        LazyVerticalGrid(columns = GridCells.Fixed(3)) {
-            items(selectImages) { uri ->
-                Image(
-                    painter = rememberAsyncImagePainter(uri),
-                    contentScale = ContentScale.FillWidth,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .padding(16.dp, 8.dp)
-                        .size(100.dp)
-                        .clickable {
-
-                        }
-                )
-            }
-        }
-
+        LoadImage(bitmap = bitmap)
     }
 }

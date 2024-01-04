@@ -45,7 +45,7 @@ fun SignInScreen(loginViewModel: LoginViewModel = viewModel()){
     {
         Column ( modifier = Modifier
             .fillMaxSize()){
-            NormalTextComponent(value = stringResource(id =  R.string.login),"Center")
+            NormalTextComponent(value = stringResource(id =  R.string.login))
             HeadingTextComponent(value = stringResource(id = R.string.signin))
             Spacer(modifier = Modifier.height(80.dp))
             MyTextFieldComponent(labelValue = stringResource(id = R.string.labelValue3), painterResource = painterResource(
