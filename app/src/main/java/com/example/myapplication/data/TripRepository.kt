@@ -1,5 +1,6 @@
 package com.example.myapplication.data
 
+import android.net.Uri
 import kotlinx.coroutines.flow.Flow
 
 interface TripRepository {
@@ -8,4 +9,5 @@ interface TripRepository {
     fun addTrip(trip:Trip)
 
     fun findTrip(email:String):String
+
 }

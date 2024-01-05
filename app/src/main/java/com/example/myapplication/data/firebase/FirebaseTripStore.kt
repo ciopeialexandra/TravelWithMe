@@ -1,5 +1,6 @@
 package com.example.myapplication.data.firebase
 
+import android.net.Uri
 import android.util.Log
 import com.example.myapplication.data.Trip
 import com.example.myapplication.data.TripRepository
@@ -72,7 +73,6 @@ class FirebaseTripStore : TripRepository {
         }
 
     }
-
 
     private fun Trip.toFirebaseModel(): TripNode {
         return TripNode(email,country,description,city,attractions,restaurants,images)
