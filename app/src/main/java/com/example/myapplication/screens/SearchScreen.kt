@@ -82,12 +82,12 @@ fun CardItem(trip: Trip, photo: Uri) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(150.dp)
+            .height(200.dp)
             .padding(10.dp)
     ){
         Box(modifier = Modifier.fillMaxSize()){
                 Image(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxSize(150F),
                     painter = rememberAsyncImagePainter(photo.toString()),
                     contentDescription = "Image",
                     contentScale = ContentScale.FillWidth
