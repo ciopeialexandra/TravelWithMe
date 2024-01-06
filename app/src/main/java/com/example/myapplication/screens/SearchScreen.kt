@@ -1,8 +1,6 @@
 package com.example.myapplication.screens
 
-import android.annotation.SuppressLint
 import android.net.Uri
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -15,13 +13,19 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
@@ -30,7 +34,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
 import com.example.myapplication.data.TripViewModel
 import com.example.myapplication.data.Trip
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.Firebase
+import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.storage
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -47,63 +53,73 @@ fun SearchScreen(tripViewModel: TripViewModel = viewModel()){
                 title = {
                     Text(text = "Trips")
                 },
-//                Modifier.background(White)
+//                Modifier.background(Black),
+
             )
 
             SetData(tripViewModel)
         }
     }
 }
-var photo = Uri.EMPTY
+
+
 @Composable
 fun SetData(tripViewModel: TripViewModel) {
-
     val trips = tripViewModel.tripListState.collectAsState(emptyList())
     val storage = Firebase.storage
     val storageRef = storage.reference
+
     LazyColumn {
         items(trips.value) { trip ->
-            val imageName = trip.images
-            val pathReference = storageRef.child("images/$imageName")
-            pathReference.downloadUrl.addOnSuccessListener { image ->
-                photo = image
-                Log.e("ads", photo.toString())
-            }
-            CardItem(trip = trip, photo = photo)
+            CardItem(trip = trip, storageRef = storageRef)
         }
     }
 }
 
-
-@SuppressLint("ProduceStateDoesNotAssignValue")
 @Composable
-fun CardItem(trip: Trip, photo: Uri) {
+fun CardItem(trip: Trip, storageRef: StorageReference) {
+    var imageUri by remember { mutableStateOf<Uri?>(null) }
+
+    DisposableEffect(key1 = trip.images) {
+        val pathReference = storageRef.child("images/${trip.images}")
+
+        val onSuccessListener = OnSuccessListener<Uri> { image ->
+            imageUri = image // Store the image URI
+        }
+
+        pathReference.downloadUrl.addOnSuccessListener(onSuccessListener)
+
+        onDispose {}
+    }
+
+    val painter = rememberAsyncImagePainter(imageUri?.toString())
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(200.dp)
+            .height(150.dp)
             .padding(10.dp)
-    ){
-        Box(modifier = Modifier.fillMaxSize()){
-                Image(
-                    modifier = Modifier.fillMaxSize(150F),
-                    painter = rememberAsyncImagePainter(photo.toString()),
-                    contentDescription = "Image",
-                    contentScale = ContentScale.FillWidth
-                )
-            }
+    ) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            Image(
+                painter = painter,
+                modifier = Modifier.fillMaxSize(),
+                contentDescription = "Image",
+                contentScale = ContentScale.FillWidth
+            )
+
             Text(
                 text = trip.country,
+                fontSize = MaterialTheme.typography.bodySmall.fontSize,
                 modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
                     .fillMaxWidth()
-                    .background(color = White),
+                    .background(Color.Gray),
                 textAlign = TextAlign.Center,
-                color = White
+                color = Color.Black
             )
         }
     }
+}
 
 
 
