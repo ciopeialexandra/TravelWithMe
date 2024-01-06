@@ -27,7 +27,6 @@ import com.example.myapplication.viewModel3
 fun TravelApp(){
     lateinit var viewModel: SignUpViewModel
     lateinit var viewModel2: LoginViewModel
-    lateinit var viewmodel3: TripViewModel
     Surface (modifier = Modifier.fillMaxSize(),
         color = Color.White
     ){

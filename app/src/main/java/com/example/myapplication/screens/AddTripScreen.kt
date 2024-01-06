@@ -23,7 +23,7 @@ import com.example.myapplication.components.ShowImage
 import com.example.myapplication.data.TripUIEvent
 import com.example.myapplication.data.TripViewModel
 import com.example.myapplication.data.firebase.emailDb
-import com.example.myapplication.data.firebase.fileName
+import com.example.myapplication.data.firebase.fileUriData
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -81,7 +81,7 @@ fun AddTripScreen(tripViewModel: TripViewModel = viewModel()){
                     onButtonClicked = {
                         tripViewModel.onEvent(TripUIEvent.AddTripButtonClicked)
                         tripViewModel.addTrip(emailDb,tripViewModel.addTripUIState.value.country,tripViewModel.addTripUIState.value.description,tripViewModel.addTripUIState.value.city,tripViewModel.addTripUIState.value.attractions,tripViewModel.addTripUIState.value.restaurants,
-                            fileName)
+                            fileUriData)
                     },
                     isEnabled = true
                 )

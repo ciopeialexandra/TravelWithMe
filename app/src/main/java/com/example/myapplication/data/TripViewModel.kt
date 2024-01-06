@@ -16,16 +16,6 @@ class TripViewModel(private val tripRepository: TripRepository): ViewModel() {
     val tripListState: Flow<List<Trip>> by lazy {  tripRepository.getAll() }
     var tripUIState = mutableStateOf(TripUIState())
 
-//    init {
-//        viewModelScope.launch {
-//            tripUIState.value = tripUIState.value.copy(allTrips = tripRepository.getAll())
-//        }
-//    }
-//init {
-//    viewModelScope.launch {
-//        tripListState.value = tripListState.value.copy(allTrips = tripRepository.getAll())
-//    }
-//}
 
     fun findTrip(email: String) {
         tripRepository.findTrip(email)
