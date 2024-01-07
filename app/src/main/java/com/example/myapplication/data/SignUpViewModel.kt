@@ -15,8 +15,8 @@ class SignUpViewModel(private val userRepository: UserRepository) :ViewModel() {
     var allValidationPassed = mutableStateOf(false)
     var signUpProgress = mutableStateOf(false)
 
-    fun addUser(email: String,firstName:String,lastName: String,story:String) {
-        userRepository.addUser(User(email, firstName , lastName ,story))
+    fun addUser(email: String,firstName:String,lastName: String) {
+        userRepository.addUser(User(email, firstName , lastName))
     }
     fun onEvent(event : SignUpUIEvent){
         validateDataWithRules()

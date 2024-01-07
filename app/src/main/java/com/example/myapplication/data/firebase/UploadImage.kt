@@ -33,7 +33,7 @@ fun uploadImageToFirebase(fileUri: Uri) {
 fun uploadImageToFirebase2(fileUri: Uri) {
     val fileName = UUID.randomUUID().toString() + ".jpg"
     fileUriData = fileName
-    val refStorage = FirebaseStorage.getInstance().reference.child("images/$fileName")
+    val refStorage = FirebaseStorage.getInstance().reference.child("story/$fileName")
 
     refStorage.putFile(fileUri)
         .addOnSuccessListener { taskSnapshot ->

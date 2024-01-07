@@ -1,6 +1,5 @@
 package com.example.myapplication.data.firebase
 
-import android.net.Uri
 
 data class TripNode(
     var email: String,

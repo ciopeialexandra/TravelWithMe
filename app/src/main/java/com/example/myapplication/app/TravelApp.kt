@@ -7,7 +7,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.example.myapplication.data.LoginViewModel
 import com.example.myapplication.data.SignUpViewModel
+import com.example.myapplication.data.StoryViewModel
 import com.example.myapplication.data.TripViewModel
+import com.example.myapplication.data.firebase.FirebaseStoryStore
 import com.example.myapplication.data.firebase.FirebaseTripStore
 import com.example.myapplication.data.firebase.FirebaseUserStore
 import com.example.myapplication.navigation.Screen
@@ -24,6 +26,7 @@ import com.example.myapplication.screens.StoryScreen
 import com.example.myapplication.screens.TermsAndCondtionsScreen
 import com.example.myapplication.viewModel2
 import com.example.myapplication.viewModel3
+import com.example.myapplication.viewModel4
 
 @Composable
 fun TravelApp(){
@@ -63,11 +66,12 @@ fun TravelApp(){
                 }
 
                 is Screen.ProfileScreen ->{
-                    ProfileScreen()
+                    viewModel3  = TripViewModel(FirebaseTripStore())
+                    ProfileScreen(viewModel3)
                 }
                 is Screen.StoryScreen ->{
-                    viewModel2 = LoginViewModel(FirebaseUserStore())
-                    StoryScreen(viewModel2)
+                    viewModel4 = StoryViewModel(FirebaseStoryStore())
+                    StoryScreen(viewModel4)
                 }
 
                 is Screen.SearchScreen -> {

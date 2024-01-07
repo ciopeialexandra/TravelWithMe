@@ -13,6 +13,7 @@ import java.io.File
 
 class ImageUtils(private val context: Context) {
     var currentPhotoPath: String? = null
+    var photoUri: Uri = Uri.EMPTY
 
     private fun createImageFile(): File {
         val timestamp = System.currentTimeMillis()
@@ -24,7 +25,7 @@ class ImageUtils(private val context: Context) {
             storageDir
         ).apply {
             currentPhotoPath = absolutePath
-            photoPath = absolutePath.toUri()
+            photoUri = absolutePath.toUri()
         }
     }
 

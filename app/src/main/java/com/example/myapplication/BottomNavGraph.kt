@@ -5,7 +5,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.myapplication.data.LoginViewModel
+import com.example.myapplication.data.SignUpViewModel
+import com.example.myapplication.data.StoryViewModel
 import com.example.myapplication.data.TripViewModel
+import com.example.myapplication.data.firebase.FirebaseStoryStore
 import com.example.myapplication.data.firebase.FirebaseTripStore
 import com.example.myapplication.data.firebase.FirebaseUserStore
 import com.example.myapplication.navigation.Screen
@@ -18,6 +21,7 @@ import com.example.myapplication.screens.StoryScreen
 
 lateinit var viewModel3: TripViewModel
 lateinit var viewModel2: LoginViewModel
+lateinit var viewModel4: StoryViewModel
 @Composable
 fun BottomNavGraph(navController: NavHostController){
     NavHost(
@@ -28,8 +32,8 @@ fun BottomNavGraph(navController: NavHostController){
             TravelAppNavigate.navigateTo(Screen.ExploreScreen)
         }
         composable(route = BottomBarScreen.Story.route){
-            viewModel2 = LoginViewModel(FirebaseUserStore())
-            StoryScreen(viewModel2)
+            viewModel4 = StoryViewModel(FirebaseStoryStore())
+            StoryScreen(viewModel4)
         }
         composable(route = BottomBarScreen.Add.route){
             viewModel3  = TripViewModel(FirebaseTripStore())
@@ -40,7 +44,8 @@ fun BottomNavGraph(navController: NavHostController){
             SearchScreen(viewModel3)
         }
         composable(route = BottomBarScreen.Profile.route){
-            ProfileScreen()
+            viewModel3  = TripViewModel(FirebaseTripStore())
+            ProfileScreen(viewModel3)
         }
     }
 }

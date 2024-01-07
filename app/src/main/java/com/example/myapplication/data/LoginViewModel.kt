@@ -29,11 +29,6 @@ class LoginViewModel(private val userRepository: UserRepository):ViewModel() {
                     password = event.password
                 )
             }
-            is LoginUIEvent.StoryAdded -> {
-                loginUIState.value = loginUIState.value.copy(
-                    story = event.story
-                )
-            }
 
             is LoginUIEvent.LoginButtonClicked -> {
                    signIn()
