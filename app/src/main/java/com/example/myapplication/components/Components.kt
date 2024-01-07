@@ -68,11 +68,15 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TextField
@@ -601,29 +605,46 @@ fun CardItem(trip: Trip, storageRef: StorageReference, onClick: () -> Unit) {
             .height(150.dp)
             .padding(10.dp)
     ) {
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .height(150.dp)
-            .padding(2.dp)
-            .clickable { onClick.invoke() }
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .height(150.dp)
+                .padding(2.dp)
+                .clickable { onClick.invoke() }
         ) {
             Image(
                 painter = painter,
                 modifier = Modifier.fillMaxSize(),
                 contentDescription = "Image",
                 contentScale = ContentScale.FillWidth
-
             )
 
-            Text(
-                text = trip.city,
-                fontSize = MaterialTheme.typography.bodySmall.fontSize,
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color.Transparent),
-                textAlign = TextAlign.Center,
-                color = Color.Black
-            )
+                    .padding(8.dp)
+                    .clip(RoundedCornerShape(4.dp))
+                    .background(Color.Transparent)
+                    .width(IntrinsicSize.Min)
+                    .wrapContentWidth(align = Alignment.Start)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.LocationOn,
+                    contentDescription = "Location Icon",
+                    tint = Color.Black,
+                    modifier = Modifier.padding(end = 4.dp)
+                )
+
+                Text(
+                    text = trip.city,
+                    fontSize = MaterialTheme.typography.bodySmall.fontSize,
+                    modifier = Modifier.padding(vertical = 4.dp),
+                    textAlign = TextAlign.Left,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black
+                )
+            }
         }
     }
 }
