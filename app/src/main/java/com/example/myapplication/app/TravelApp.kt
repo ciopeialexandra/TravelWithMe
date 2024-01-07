@@ -43,22 +43,19 @@ fun TravelApp(){
                 is Screen.TermsAndConditionsScreen->{
                     TermsAndCondtionsScreen()
                 }
-                is Screen.SignInScreen->{
-                    viewModel2 = LoginViewModel(FirebaseUserStore())
-                    SignInScreen(viewModel2)
-                }
                 is Screen.ForgotPasswordScreen->{
                     ForgotPasswordScreen()
                 }
                 is Screen.MainScreen->{
-                    MainScreen()
                 }
                 is Screen.AddTripScreen->{
                     AddTripScreen(viewModel3)
 
                 }
                 is Screen.ExploreScreen->{
-                    ExploreScreen()
+                    MainScreen()
+                    viewModel3  = TripViewModel(FirebaseTripStore())
+//                    ExploreScreen(viewModel3)
                 }
 
                 is Screen.ProfileScreen ->{
