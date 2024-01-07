@@ -28,8 +28,6 @@ import com.example.myapplication.components.NormalTextComponent
 import com.example.myapplication.components.PasswordTextFieldComponent
 import com.example.myapplication.data.LoginUIEvent
 import com.example.myapplication.data.LoginViewModel
-import com.example.myapplication.data.SignUpUIEvent
-import com.example.myapplication.data.SignUpViewModel
 import com.example.myapplication.navigation.Screen
 import com.example.myapplication.navigation.SystemBackButtonHandler
 import com.example.myapplication.navigation.TravelAppNavigate
@@ -45,7 +43,7 @@ fun SignInScreen(loginViewModel: LoginViewModel = viewModel()){
     {
         Column ( modifier = Modifier
             .fillMaxSize()){
-            NormalTextComponent(value = stringResource(id =  R.string.login))
+            NormalTextComponent(value = stringResource(id =  R.string.login),"Center")
             HeadingTextComponent(value = stringResource(id = R.string.signin))
             Spacer(modifier = Modifier.height(80.dp))
             MyTextFieldComponent(labelValue = stringResource(id = R.string.labelValue3), painterResource = painterResource(

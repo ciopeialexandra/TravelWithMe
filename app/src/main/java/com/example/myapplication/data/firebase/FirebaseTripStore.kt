@@ -1,24 +1,15 @@
 package com.example.myapplication.data.firebase
 
-import android.net.Uri
 import android.util.Log
 import com.example.myapplication.data.Trip
 import com.example.myapplication.data.TripRepository
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.gms.tasks.OnSuccessListener
-import com.google.firebase.Firebase
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.database
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.UploadTask
-import com.google.firebase.storage.storage
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
-import java.util.UUID
 
 class FirebaseTripStore : TripRepository {
     private val database = FirebaseDatabase.getInstance().reference.child("trip")
@@ -52,7 +43,7 @@ class FirebaseTripStore : TripRepository {
         database.push().setValue(trip.toFirebaseModel())
     }
     override fun findTrip(email: String):String {
-        var location = "";
+        var location = ""
         val listener = object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
                 Log.e("FirebaseTripStore", "getAll:", p0.toException())
@@ -82,13 +73,12 @@ class FirebaseTripStore : TripRepository {
 
     }
 
-
-    fun Trip.toFirebaseModel(): TripNode {
-        return TripNode(email,country,description,city,attractions,restaurants)
+    private fun Trip.toFirebaseModel(): TripNode {
+        return TripNode(email,country,description,city,attractions,restaurants,images)
     }
 
     fun TripNode.toDomainModel(): Trip {
-        return Trip(email,country,description,city,attractions,restaurants)
+        return Trip(email,country,description,city,attractions,restaurants,images)
     }
 
 }

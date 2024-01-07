@@ -1,6 +1,10 @@
 package com.example.myapplication.data
 
-data class TripUIState (
+import android.net.Uri
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
+
+data class TripUIState(
     var email: String = "",
     var country: String = "",
     var description: String = "",
@@ -8,6 +12,9 @@ data class TripUIState (
     var city: String = "",
     var attractions: String = "",
     var restaurants: String = "",
+    var images: String = "",
+    val selectedTrip: Trip? = null,
+    val allTrips: Flow<List<Trip>?> = flowOf(null),
 
     var countryError: Boolean = false,
     var descriptionError: Boolean = false,

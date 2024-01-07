@@ -19,8 +19,8 @@ class TripDbStore(private val tripDatabase: TripDatabase) : TripRepository {
         return tripDatabase.tripDao().find(email)
     }
 
-    private fun Trip.toDbModel() = TripEntity(email,country,description,city,attractions,restaurants)
+    private fun Trip.toDbModel() = TripEntity(email,country,description,city,attractions,restaurants,images)
 
-    private fun TripEntity.toDomainModel() = Trip(email,country,description,city,attractions,restaurants)
+    private fun TripEntity.toDomainModel() = Trip(email,country,description,city,attractions,restaurants,images)
 
 }

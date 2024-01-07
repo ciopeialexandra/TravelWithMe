@@ -38,12 +38,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
+import androidx.compose.ui.tooling.preview.Preview
 import com.example.myapplication.components.DCodeIcon
 import com.example.myapplication.components.FeatureList
 import com.example.myapplication.components.ImageTextList
 import com.example.myapplication.components.MyIcons
 import com.example.myapplication.components.ProfilePopularList
-import com.example.myapplication.data.firebase.emailUser
+import com.example.myapplication.data.firebase.emailDb
 import com.example.myapplication.navigation.Screen
 import com.example.myapplication.navigation.TravelAppNavigate
 
@@ -57,7 +58,7 @@ val profilePopularList = listOf(
 
 val imageTextList = listOf(
     ImageTextList(DCodeIcon.ImageVectorIcon(MyIcons.Location), "Timisoara, Romania"),
-    ImageTextList(DCodeIcon.ImageVectorIcon(MyIcons.Email), emailUser),
+    ImageTextList(DCodeIcon.ImageVectorIcon(MyIcons.Email), emailDb),
 )
 
 val moreOptionsList = listOf(
@@ -69,6 +70,7 @@ val moreOptionsList = listOf(
     ExperimentalComposeUiApi::class,
     ExperimentalMaterial3Api::class
 )
+@Preview
 @Composable
 fun ProfileScreen() {
 
