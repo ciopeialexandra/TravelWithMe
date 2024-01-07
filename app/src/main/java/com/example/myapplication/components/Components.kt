@@ -589,6 +589,7 @@ fun CameraGalleryChooser(loginViewModel: LoginViewModel) {
             ) {
                 // Displaying user name
                 Text(
+
                     text = nameUser,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold
