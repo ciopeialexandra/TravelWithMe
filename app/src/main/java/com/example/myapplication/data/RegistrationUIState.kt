@@ -5,6 +5,7 @@ data class RegistrationUIState(
     var lastName: String = "",
     var email: String = "",
     var password: String = "",
+    var story: String = "",
     var privacyPolicyAccepted:Boolean = false,
 
     var firstNameError: Boolean = false,

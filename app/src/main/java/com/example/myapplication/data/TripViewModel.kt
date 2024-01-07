@@ -2,12 +2,10 @@ package com.example.myapplication.data
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.myapplication.data.rules.Validator
 import com.example.myapplication.navigation.Screen
 import com.example.myapplication.navigation.TravelAppNavigate
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 
 class TripViewModel(private val tripRepository: TripRepository): ViewModel() {
     private val TAG = TripViewModel::class.simpleName
@@ -30,7 +28,15 @@ class TripViewModel(private val tripRepository: TripRepository): ViewModel() {
         restaurants: String,
         images: String
     ) {
-        tripRepository.addTrip(Trip(email,country,description,city,attractions,restaurants,images))
+        tripRepository.addTrip(Trip(
+            email,
+            country,
+            description,
+            city,
+            attractions,
+            restaurants,
+            images
+        ))
     }
     fun onEvent(event : TripUIEvent) {
         validateDataWithRules()

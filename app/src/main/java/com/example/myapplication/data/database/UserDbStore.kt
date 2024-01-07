@@ -21,6 +21,6 @@ class UserDbStore(private val appDatabase: AppDatabase) : UserRepository {
 
     private fun User.toDbModel() = UserEntity(email,firstName,lastName)
 
-    private fun UserEntity.toDomainModel() = User(email,firstName, lastName )
+    private fun UserEntity.toDomainModel() = User(email,firstName, lastName)
 
 }

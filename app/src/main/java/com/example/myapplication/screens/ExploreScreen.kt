@@ -52,6 +52,10 @@ import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.Firebase
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.storage
+import androidx.navigation.compose.rememberNavController
+import com.example.myapplication.BottomNavGraph
+import com.example.myapplication.components.BottomBar
+import com.example.myapplication.components.CameraGalleryChooser
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -139,6 +143,13 @@ fun TripItemExplore(trip: Trip, storageRef: StorageReference, onClick: () -> Uni
         pathReference.downloadUrl.addOnSuccessListener(onSuccessListener)
 
         onDispose {}
+fun ExploreScreen(){
+    Surface (
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(28.dp)
+            .background(color = Color.Black)
+    ){
     }
 
     val painter = rememberAsyncImagePainter(imageUri?.toString())

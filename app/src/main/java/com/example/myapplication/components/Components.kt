@@ -1,5 +1,6 @@
 package com.example.myapplication.components
 
+import android.app.Activity
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.util.Log
@@ -80,19 +81,43 @@ import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TextField
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.input.TextFieldValue
 import coil.compose.rememberAsyncImagePainter
-import com.example.myapplication.data.Trip
-import com.example.myapplication.data.firebase.uploadImageToFirebase
 import com.example.myapplication.ui.theme.PurpleGrey40
+import com.example.myapplication.data.StoryUIEvent
+import com.example.myapplication.data.StoryUser
+import com.example.myapplication.data.StoryViewModel
+import com.example.myapplication.data.Trip
+import com.example.myapplication.data.TripUIEvent
+import com.example.myapplication.data.TripViewModel
+import com.example.myapplication.data.firebase.emailDb
+import com.example.myapplication.data.firebase.fileUriData
+import com.example.myapplication.data.firebase.uploadImageToFirebase
+import com.example.myapplication.data.firebase.uploadImageToFirebase2
+import com.example.myapplication.screens.CardItem
+import com.example.myapplication.screens.nameUser
 import com.google.android.gms.tasks.OnSuccessListener
+import com.google.firebase.Firebase
 import com.google.firebase.storage.StorageReference
-
+import com.google.firebase.storage.storage
+import java.io.File
+import java.time.LocalDateTime
 @Composable
 fun NormalTextComponent(value:String,direction:String){
     Text(text = value,
@@ -109,22 +134,7 @@ fun NormalTextComponent(value:String,direction:String){
 
     )
 }
-@Composable
-fun LeftTextComponent(value:String){
-    Text(text = value,
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = 40.dp),
-        style = TextStyle(
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Normal,
-            fontStyle = FontStyle.Normal
-        ),
-        color = Color.Black,
-        textAlign = TextAlign.Left
 
-    )
-}
 @Composable
 fun HeadingTextComponent(value:String){
     Text(text = value,
@@ -482,45 +492,6 @@ fun RowScope.AddItem(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun CenteredInRowTextField() {
-
-    var text by remember { mutableStateOf(TextFieldValue("")) }
-
-    val backgroundColorModifier = Modifier.background(PurpleGrey40)
-
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Center
-    ) {
-        Spacer(modifier = Modifier.weight(1f)) // Adaugă un spațiu flexibil în stânga text field-ului
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .clip(RoundedCornerShape(8.dp)) // Margini curbate
-//                .background(PurpleGrey40) // Culoare de fundal
-                .border(0.7.dp, PurpleGrey40, shape = RoundedCornerShape(8.dp)) // Bordură
-                .padding(8.dp) // Spațiu pentru text în interior
-                .widthIn(max = 300.dp) // Lățimea maximă pentru text field
-                .height(36.dp) // Înălțimea text field-ului
-                .then(backgroundColorModifier)
-        ) {
-            TextField(
-                value = text,
-                onValueChange = { newText ->
-                    text = newText
-                },
-                modifier = Modifier.fillMaxWidth(),
-                colors = TextFieldDefaults.textFieldColors(
-                    unfocusedLabelColor = PurpleGrey40,
-                    focusedLabelColor = PurpleGrey40
-                )
-            )
-        }
-        Spacer(modifier = Modifier.weight(1f)) // Adaugă un spațiu flexibil în dreapta text field-ului
-    }
-}
 @Composable
 fun LoadImage(
     bitmap: MutableState<Bitmap?>
@@ -742,6 +713,104 @@ fun TripDetailView(trip: Trip, storageRef: StorageReference, onClose: () -> Unit
                     .fillMaxWidth()
             ) {
                 Text("Close")
+fun CameraGalleryChooser(storyViewModel:StoryViewModel) {
+    val context = LocalContext.current
+    val imageUtils = ImageUtils(context)
+    var currentPhoto by remember { mutableStateOf<String?>(null) }
+
+    val launcher =
+        rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                val data = it.data?.data
+                currentPhoto = if (data == null) {
+                    // Camera intent
+                    imageUtils.currentPhotoPath
+                } else {
+                    // Gallery Pick Intent
+                    imageUtils.getPathFromGalleryUri(data)
+                }.toString()
+            }
+        }
+    Column {
+        Button(
+            onClick = {
+                launcher.launch(imageUtils.getIntent())
+                if (currentPhoto != null) {
+                    uploadImageToFirebase2(Uri.fromFile(currentPhoto?.let { File(it) }))
+                    storyViewModel.onEvent(StoryUIEvent.StoryChanged(currentPhoto!!))
+                    storyViewModel.addStory(
+                        emailDb, currentPhoto!!
+                    )
+                }
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(48.dp),
+            colors = ButtonDefaults.buttonColors(Color.Transparent),
+            shape = RoundedCornerShape(50.dp),
+            enabled = true
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(48.dp)
+                    .background(
+                        color = Primary,
+                        shape = RoundedCornerShape(50.dp)
+                    ),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "Add story",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+        }
+
+        // loginViewModel.onEvent(LoginUIEvent.StoryAdded(currentPhoto.toString()))
+        val story = storyViewModel.storyListState.collectAsState(emptyList())
+        LazyColumn {
+            items(story.value) { story ->
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(500.dp)
+                ) {
+                    Box(modifier = Modifier.fillMaxSize()) {
+                        Image(
+                            painter = rememberAsyncImagePainter(story.story),
+                            modifier = Modifier.fillMaxSize(),
+                            contentDescription = "Image",
+                            contentScale = ContentScale.FillWidth
+                        )
+                        Text(
+                            text = nameUser,
+                            fontSize = MaterialTheme.typography.bodySmall.fontSize,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(40.dp)
+                                .background(Color.Transparent),
+                            textAlign = TextAlign.Center,
+                            color = Color.LightGray
+                        )
+
+                    }
+                }
+            }
+        }
+    }
+}
+@Composable
+fun SetDataProfile(tripViewModel: TripViewModel) {
+    val trips = tripViewModel.tripListState.collectAsState(emptyList())
+    val storage = Firebase.storage
+    val storageRef = storage.reference
+
+    LazyColumn {
+        items(trips.value) { trip ->
+            if(trip.email.equals(emailDb)) {
+                CardItem(trip = trip, storageRef = storageRef)
             }
         }
     }

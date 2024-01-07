@@ -45,6 +45,8 @@ import com.example.myapplication.components.FeatureList
 import com.example.myapplication.components.ImageTextList
 import com.example.myapplication.components.MyIcons
 import com.example.myapplication.components.ProfilePopularList
+import com.example.myapplication.components.SetDataProfile
+import com.example.myapplication.data.TripViewModel
 import com.example.myapplication.data.firebase.emailDb
 import com.example.myapplication.navigation.Screen
 import com.example.myapplication.navigation.TravelAppNavigate
@@ -71,9 +73,8 @@ val moreOptionsList = listOf(
     ExperimentalComposeUiApi::class,
     ExperimentalMaterial3Api::class
 )
-@Preview
 @Composable
-fun ProfileScreen() {
+fun ProfileScreen(tripViewModel:TripViewModel) {
 
 
     Scaffold(
@@ -101,11 +102,10 @@ fun ProfileScreen() {
 
         ProfileContent(
             modifier = Modifier
-                .verticalScroll(rememberScrollState())
                 .padding(padding)
         ) {
             TopProfileLayout()
-            MainProfileContent()
+            MainProfileContent(tripViewModel )
             FooterContent()
         }
     }
@@ -216,7 +216,7 @@ fun ImageTextContent(
 }
 
 @Composable
-fun MainProfileContent() {
+fun MainProfileContent(tripViewModel:TripViewModel) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -230,74 +230,11 @@ fun MainProfileContent() {
                 text = "My packages",
                 style = MaterialTheme.typography.titleMedium,
             )
-            PopularContentList()
-
-            Divider(modifier = Modifier.padding(vertical = 15.dp))
+            Row {
+                SetDataProfile(tripViewModel)
+            }
 
         }
-    }
-}
-
-@Composable
-fun PopularContentList() {
-    LazyRow {
-        items(
-            items = profilePopularList,
-            itemContent = {
-                Surface(
-                    modifier = Modifier
-                        .width(250.dp)
-                        .padding(5.dp),
-                    shape = RoundedCornerShape(8),
-                    border = BorderStroke(0.1.dp, MaterialTheme.colorScheme.outline)
-                ) {
-                    Column(modifier = Modifier.padding(5.dp)) {
-                        Row(
-                            modifier = Modifier.padding(vertical = 5.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-
-                            Spacer(modifier = Modifier.width(5.dp))
-                            Text(
-                                text = it.name,
-                                style = MaterialTheme.typography.titleSmall,
-                            )
-                        }
-
-                        Text(
-                            modifier = Modifier.padding(vertical = 5.dp),
-                            text = it.description,
-                            style = MaterialTheme.typography.bodySmall, maxLines = 2,
-                        )
-
-                        Row(
-                            modifier = Modifier.padding(vertical = 5.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            ImageTextContent(
-                                modifier = Modifier.padding(vertical = 5.dp),
-                                icon = {
-                                    Icon(
-                                        imageVector = DCodeIcon.ImageVectorIcon(MyIcons.Star).imageVector,
-                                        contentDescription = null,
-                                        modifier = Modifier
-                                            .clip(CircleShape)
-                                            .size(15.dp)
-                                    )
-                                },
-                                text = {
-                                    Text(
-                                        text = it.star,
-                                        style = MaterialTheme.typography.labelLarge,
-                                    )
-                                }
-                            )
-                            Spacer(modifier = Modifier.width(5.dp))
-                        }
-                    }
-                }
-            }
-        )
     }
 }
 

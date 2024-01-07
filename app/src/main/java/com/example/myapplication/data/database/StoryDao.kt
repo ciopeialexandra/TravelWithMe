@@ -6,15 +6,15 @@ import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface TripDao {
-    @Query("SELECT * FROM trip")
-    fun getAll(): Flow<List<TripEntity>>
+interface StoryDao {
+    @Query("SELECT * FROM story")
+    fun getAll(): Flow<List<StoryEntity>>
 
     @Insert
-    fun insert(trip: TripEntity)
+    fun insert(story: StoryEntity)
 
 
-    @Query("SELECT * FROM trip WHERE email LIKE :emailFun LIMIT 1")
+    @Query("SELECT * FROM story WHERE email LIKE :emailFun LIMIT 1")
     fun find(emailFun: String) :String
 
 

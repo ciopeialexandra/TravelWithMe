@@ -1,6 +1,5 @@
 package com.example.myapplication.data
 
-import android.net.Uri
 
 sealed class TripUIEvent {
     data class CountryChanged(val country: String) : TripUIEvent()
