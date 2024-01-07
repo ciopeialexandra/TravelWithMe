@@ -20,13 +20,14 @@ import com.example.myapplication.screens.ProfileScreen
 import com.example.myapplication.screens.SearchScreen
 import com.example.myapplication.screens.SignInScreen
 import com.example.myapplication.screens.SignUpScreen
+import com.example.myapplication.screens.StoryScreen
 import com.example.myapplication.screens.TermsAndCondtionsScreen
+import com.example.myapplication.viewModel2
 import com.example.myapplication.viewModel3
 
 @Composable
 fun TravelApp(){
     lateinit var viewModel: SignUpViewModel
-    lateinit var viewModel2: LoginViewModel
     Surface (modifier = Modifier.fillMaxSize(),
         color = Color.White
     ){
@@ -63,6 +64,10 @@ fun TravelApp(){
 
                 is Screen.ProfileScreen ->{
                     ProfileScreen()
+                }
+                is Screen.StoryScreen ->{
+                    viewModel2 = LoginViewModel(FirebaseUserStore())
+                    StoryScreen(viewModel2)
                 }
 
                 is Screen.SearchScreen -> {

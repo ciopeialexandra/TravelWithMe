@@ -92,7 +92,7 @@ fun SignUpScreen(signUpViewModel: SignUpViewModel = viewModel()) {
             })
         }
         if(signUpViewModel.signUpProgress.value) {
-            signUpViewModel.addUser(signUpViewModel.registrationUIState.value.email,signUpViewModel.registrationUIState.value.firstName,signUpViewModel.registrationUIState.value.lastName)
+            signUpViewModel.addUser(signUpViewModel.registrationUIState.value.email,signUpViewModel.registrationUIState.value.firstName,signUpViewModel.registrationUIState.value.lastName,"No story")
             CircularProgressIndicator()
         }
     }

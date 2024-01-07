@@ -1,6 +1,5 @@
 package com.example.myapplication.data.firebase
 
-import android.net.Uri
 import android.util.Log
 import com.example.myapplication.data.Trip
 import com.example.myapplication.data.TripRepository

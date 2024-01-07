@@ -81,11 +81,11 @@ class FirebaseUserStore : UserRepository {
 
 
     fun User.toFirebaseModel(): UserNode {
-        return UserNode(email, firstName,lastName)
+        return UserNode(email, firstName,lastName,story)
     }
 
     fun UserNode.toDomainModel(): User {
-        return User(email, firstName , lastName)
+        return User(email, firstName , lastName,story)
     }
 
 }

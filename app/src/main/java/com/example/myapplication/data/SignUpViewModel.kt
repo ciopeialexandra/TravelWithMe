@@ -15,8 +15,8 @@ class SignUpViewModel(private val userRepository: UserRepository) :ViewModel() {
     var allValidationPassed = mutableStateOf(false)
     var signUpProgress = mutableStateOf(false)
 
-    fun addUser(email: String,firstName:String,lastName: String) {
-        userRepository.addUser(User(email, firstName , lastName ))
+    fun addUser(email: String,firstName:String,lastName: String,story:String) {
+        userRepository.addUser(User(email, firstName , lastName ,story))
     }
     fun onEvent(event : SignUpUIEvent){
         validateDataWithRules()
@@ -41,6 +41,11 @@ class SignUpViewModel(private val userRepository: UserRepository) :ViewModel() {
                     password = event.password
                 )
             }
+            is SignUpUIEvent.StoryAdded -> {
+                registrationUIState.value = registrationUIState.value.copy(
+                    story = event.story
+                )
+            }
             is SignUpUIEvent.RegisterButtonClicked -> {
                 signUp()
             }
@@ -59,7 +64,7 @@ class SignUpViewModel(private val userRepository: UserRepository) :ViewModel() {
             email = registrationUIState.value.email ,
             password = registrationUIState.value.password,
             firstName = registrationUIState.value.firstName,
-            lastName = registrationUIState.value.lastName
+            lastName = registrationUIState.value.lastName,
         )
     }
 
