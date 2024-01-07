@@ -29,7 +29,9 @@ fun BottomNavGraph(navController: NavHostController){
         startDestination = BottomBarScreen.Explore.route
     ){
         composable(route = BottomBarScreen.Explore.route){
-            TravelAppNavigate.navigateTo(Screen.ExploreScreen)
+//            TravelAppNavigate.navigateTo(Screen.ExploreScreen)
+//            viewModel3  = TripViewModel(FirebaseTripStore())
+            ExploreScreen(viewModel3)
         }
         composable(route = BottomBarScreen.Story.route){
             viewModel4 = StoryViewModel(FirebaseStoryStore())

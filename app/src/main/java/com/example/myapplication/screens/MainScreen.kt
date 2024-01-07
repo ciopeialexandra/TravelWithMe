@@ -19,14 +19,14 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import com.example.myapplication.components.BottomBar
 import com.example.myapplication.data.SignUpViewModel
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter", "SuspiciousIndentation")
 @Composable
 fun MainScreen(){
-//    val navController = rememberNavController()
-//
-//        Scaffold (
-//            bottomBar = { BottomBar(navController = navController)}
-//        ){
-//            BottomNavGraph(navController = navController)
-//        }
+    val navController = rememberNavController()
+
+        Scaffold (
+            bottomBar = { BottomBar(navController = navController)}
+        ){
+            BottomNavGraph(navController = navController)
+        }
 }

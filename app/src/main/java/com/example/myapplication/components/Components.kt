@@ -65,6 +65,22 @@ import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.TextField
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -83,6 +99,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import coil.compose.rememberAsyncImagePainter
+import com.example.myapplication.ui.theme.PurpleGrey40
 import com.example.myapplication.data.StoryUIEvent
 import com.example.myapplication.data.StoryUser
 import com.example.myapplication.data.StoryViewModel
@@ -101,7 +118,6 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.storage
 import java.io.File
 import java.time.LocalDateTime
-
 @Composable
 fun NormalTextComponent(value:String,direction:String){
     Text(text = value,
@@ -537,6 +553,166 @@ fun ShowImage() {
 }
 
 @Composable
+fun CardItem(trip: Trip, storageRef: StorageReference, onClick: () -> Unit) {
+    var imageUri by remember { mutableStateOf<Uri?>(null) }
+
+    DisposableEffect(key1 = trip.images) {
+        val pathReference = storageRef.child("images/${trip.images}")
+
+        val onSuccessListener = OnSuccessListener<Uri> { image ->
+            imageUri = image // Store the image URI
+        }
+
+        pathReference.downloadUrl.addOnSuccessListener(onSuccessListener)
+
+        onDispose {}
+    }
+
+    val painter = rememberAsyncImagePainter(imageUri?.toString())
+
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(150.dp)
+            .padding(10.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .height(150.dp)
+                .padding(2.dp)
+                .clickable { onClick.invoke() }
+        ) {
+            Image(
+                painter = painter,
+                modifier = Modifier.fillMaxSize(),
+                contentDescription = "Image",
+                contentScale = ContentScale.FillWidth
+            )
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
+                    .clip(RoundedCornerShape(4.dp))
+                    .background(Color.Transparent)
+                    .width(IntrinsicSize.Min)
+                    .wrapContentWidth(align = Alignment.Start)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.LocationOn,
+                    contentDescription = "Location Icon",
+                    tint = Color.Black,
+                    modifier = Modifier.padding(end = 4.dp)
+                )
+
+                Text(
+                    text = trip.city,
+                    fontSize = MaterialTheme.typography.bodySmall.fontSize,
+                    modifier = Modifier.padding(vertical = 4.dp),
+                    textAlign = TextAlign.Left,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun TripDetailView(trip: Trip, storageRef: StorageReference, onClose: () -> Unit) {
+
+    var imageUri by remember { mutableStateOf<Uri?>(null) }
+
+    DisposableEffect(key1 = trip.images) {
+        val pathReference = storageRef.child("images/${trip.images}")
+
+        val onSuccessListener = OnSuccessListener<Uri> { image ->
+            imageUri = image // Store the image URI
+        }
+
+        pathReference.downloadUrl.addOnSuccessListener(onSuccessListener)
+
+        onDispose {}
+    }
+
+    val painter = rememberAsyncImagePainter(imageUri?.toString())
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)
+            .padding(16.dp)
+    ) {
+        Column (
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 64.dp)
+        ){
+            Text(
+                text = buildAnnotatedString {
+                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)){
+                        append("Country: ")
+                    }
+                    append(trip.country)
+                },
+                fontSize = 20.sp
+            )
+            Text(
+                text = buildAnnotatedString {
+                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)){
+                        append("City: ")
+                    }
+                    append(trip.city)
+                },
+                fontSize = 20.sp
+            )
+            Text(
+                text = buildAnnotatedString {
+                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)){
+                        append("Description: ")
+                    }
+                    append(trip.description)
+                },
+                fontSize = 20.sp
+            )
+            Text(
+                text = buildAnnotatedString {
+                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)){
+                        append("Attractions: ")
+                    }
+                    append(trip.attractions)
+                },
+                fontSize = 20.sp
+            )
+            Text(
+                text = buildAnnotatedString {
+                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)){
+                        append("Restaurants: ")
+                    }
+                    append(trip.restaurants)
+                },
+                fontSize = 20.sp
+            )
+
+//            val painter = rememberAsyncImagePainter(trip.images)
+            Image(
+                painter = painter,
+                contentDescription = "Trip Image",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp),
+                contentScale = ContentScale.FillWidth
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Button(
+                onClick = onClose,
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Text("Close")
 fun CameraGalleryChooser(storyViewModel:StoryViewModel) {
     val context = LocalContext.current
     val imageUtils = ImageUtils(context)
