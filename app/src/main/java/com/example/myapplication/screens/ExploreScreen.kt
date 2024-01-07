@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.BottomNavGraph
 import com.example.myapplication.components.BottomBar
+import com.example.myapplication.components.CameraGalleryChooser
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -23,7 +24,6 @@ fun ExploreScreen(){
             .padding(28.dp)
             .background(color = Color.Black)
     ){
-
     }
         val navController = rememberNavController()
 

@@ -26,5 +26,4 @@ data class TripEntity(
 
     @ColumnInfo(name = "images")
     val images: String
-
 )

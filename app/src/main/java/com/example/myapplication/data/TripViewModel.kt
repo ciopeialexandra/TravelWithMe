@@ -12,10 +12,13 @@ class TripViewModel(private val tripRepository: TripRepository): ViewModel() {
     var addTripUIState = mutableStateOf(TripUIState())
     private var allValidationPassed = mutableStateOf(false)
     val tripListState: Flow<List<Trip>> by lazy {  tripRepository.getAll() }
+    var tripUIState = mutableStateOf(TripUIState())
+
 
     fun findTrip(email: String) {
         tripRepository.findTrip(email)
     }
+
     fun addTrip(
         email: String,
         country: String,
@@ -25,7 +28,15 @@ class TripViewModel(private val tripRepository: TripRepository): ViewModel() {
         restaurants: String,
         images: String
     ) {
-        tripRepository.addTrip(Trip(email,country,description,city,attractions,restaurants,images))
+        tripRepository.addTrip(Trip(
+            email,
+            country,
+            description,
+            city,
+            attractions,
+            restaurants,
+            images
+        ))
     }
     fun onEvent(event : TripUIEvent) {
         validateDataWithRules()
@@ -64,6 +75,13 @@ class TripViewModel(private val tripRepository: TripRepository): ViewModel() {
 
             is TripUIEvent.AddTripButtonClicked -> {
                 TravelAppNavigate.navigateTo(Screen.ExploreScreen)
+            }
+
+            is TripUIEvent.TripClicked -> {
+                addTripUIState.value = addTripUIState.value.copy(selectedTrip = event.trip)
+            }
+            is TripUIEvent.BackButtonClicked -> {
+                addTripUIState.value = addTripUIState.value.copy(selectedTrip = null)
             }
         }
     }
