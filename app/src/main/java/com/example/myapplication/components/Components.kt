@@ -65,9 +65,7 @@ import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Spacer
@@ -75,23 +73,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.TextField
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Card
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
@@ -99,25 +86,19 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import coil.compose.rememberAsyncImagePainter
-import com.example.myapplication.ui.theme.PurpleGrey40
 import com.example.myapplication.data.StoryUIEvent
-import com.example.myapplication.data.StoryUser
 import com.example.myapplication.data.StoryViewModel
 import com.example.myapplication.data.Trip
-import com.example.myapplication.data.TripUIEvent
 import com.example.myapplication.data.TripViewModel
 import com.example.myapplication.data.firebase.emailDb
-import com.example.myapplication.data.firebase.fileUriData
 import com.example.myapplication.data.firebase.uploadImageToFirebase
 import com.example.myapplication.data.firebase.uploadImageToFirebase2
-import com.example.myapplication.screens.CardItem
 import com.example.myapplication.screens.nameUser
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.Firebase
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.storage
 import java.io.File
-import java.time.LocalDateTime
 @Composable
 fun NormalTextComponent(value:String,direction:String){
     Text(text = value,
@@ -645,14 +626,14 @@ fun TripDetailView(trip: Trip, storageRef: StorageReference, onClose: () -> Unit
             .background(Color.White)
             .padding(16.dp)
     ) {
-        Column (
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 64.dp)
-        ){
+        ) {
             Text(
                 text = buildAnnotatedString {
-                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)){
+                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
                         append("Country: ")
                     }
                     append(trip.country)
@@ -661,7 +642,7 @@ fun TripDetailView(trip: Trip, storageRef: StorageReference, onClose: () -> Unit
             )
             Text(
                 text = buildAnnotatedString {
-                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)){
+                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
                         append("City: ")
                     }
                     append(trip.city)
@@ -670,7 +651,7 @@ fun TripDetailView(trip: Trip, storageRef: StorageReference, onClose: () -> Unit
             )
             Text(
                 text = buildAnnotatedString {
-                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)){
+                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
                         append("Description: ")
                     }
                     append(trip.description)
@@ -679,7 +660,7 @@ fun TripDetailView(trip: Trip, storageRef: StorageReference, onClose: () -> Unit
             )
             Text(
                 text = buildAnnotatedString {
-                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)){
+                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
                         append("Attractions: ")
                     }
                     append(trip.attractions)
@@ -688,7 +669,7 @@ fun TripDetailView(trip: Trip, storageRef: StorageReference, onClose: () -> Unit
             )
             Text(
                 text = buildAnnotatedString {
-                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)){
+                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
                         append("Restaurants: ")
                     }
                     append(trip.restaurants)
@@ -713,6 +694,11 @@ fun TripDetailView(trip: Trip, storageRef: StorageReference, onClose: () -> Unit
                     .fillMaxWidth()
             ) {
                 Text("Close")
+            }
+        }
+    }
+}
+@Composable
 fun CameraGalleryChooser(storyViewModel:StoryViewModel) {
     val context = LocalContext.current
     val imageUtils = ImageUtils(context)
@@ -745,9 +731,10 @@ fun CameraGalleryChooser(storyViewModel:StoryViewModel) {
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .heightIn(48.dp),
+                .heightIn(48.dp)
+                .background(color = Primary),
             colors = ButtonDefaults.buttonColors(Color.Transparent),
-            shape = RoundedCornerShape(50.dp),
+           // shape = RoundedCornerShape(50.dp),
             enabled = true
         ) {
             Box(
@@ -755,8 +742,7 @@ fun CameraGalleryChooser(storyViewModel:StoryViewModel) {
                     .fillMaxWidth()
                     .heightIn(48.dp)
                     .background(
-                        color = Primary,
-                        shape = RoundedCornerShape(50.dp)
+                        color = Primary
                     ),
                 contentAlignment = Alignment.Center
             ) {
@@ -767,35 +753,38 @@ fun CameraGalleryChooser(storyViewModel:StoryViewModel) {
                 )
             }
         }
-
         // loginViewModel.onEvent(LoginUIEvent.StoryAdded(currentPhoto.toString()))
-        val story = storyViewModel.storyListState.collectAsState(emptyList())
-        LazyColumn {
-            items(story.value) { story ->
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(500.dp)
-                ) {
-                    Box(modifier = Modifier.fillMaxSize()) {
-                        Image(
-                            painter = rememberAsyncImagePainter(story.story),
-                            modifier = Modifier.fillMaxSize(),
-                            contentDescription = "Image",
-                            contentScale = ContentScale.FillWidth
-                        )
-                        Text(
-                            text = nameUser,
-                            fontSize = MaterialTheme.typography.bodySmall.fontSize,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(40.dp)
-                                .background(Color.Transparent),
-                            textAlign = TextAlign.Center,
-                            color = Color.LightGray
-                        )
 
-                    }
+    }
+}
+@Composable
+fun showStory(storyViewModel:StoryViewModel){
+    val story = storyViewModel.storyListState.collectAsState(emptyList())
+    LazyColumn {
+        items(story.value) { story ->
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(500.dp)
+            ) {
+                Box(modifier = Modifier.fillMaxSize()) {
+                    Image(
+                        painter = rememberAsyncImagePainter(story.story),
+                        modifier = Modifier.fillMaxSize(),
+                        contentDescription = "Image",
+                        contentScale = ContentScale.FillWidth
+                    )
+                    Text(
+                        text = nameUser,
+                        fontSize = MaterialTheme.typography.bodySmall.fontSize,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(40.dp)
+                            .background(Color.Transparent),
+                        textAlign = TextAlign.Center,
+                        color = Color.LightGray
+                    )
+
                 }
             }
         }
@@ -809,8 +798,8 @@ fun SetDataProfile(tripViewModel: TripViewModel) {
 
     LazyColumn {
         items(trips.value) { trip ->
-            if(trip.email.equals(emailDb)) {
-                CardItem(trip = trip, storageRef = storageRef)
+            if(trip.email == emailDb) {
+                CardItem(trip = trip, storageRef = storageRef, onClick = { Unit })
             }
         }
     }

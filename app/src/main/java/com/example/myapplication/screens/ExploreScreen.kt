@@ -24,6 +24,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -38,7 +39,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -52,10 +52,6 @@ import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.Firebase
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.storage
-import androidx.navigation.compose.rememberNavController
-import com.example.myapplication.BottomNavGraph
-import com.example.myapplication.components.BottomBar
-import com.example.myapplication.components.CameraGalleryChooser
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -143,7 +139,7 @@ fun TripItemExplore(trip: Trip, storageRef: StorageReference, onClick: () -> Uni
         pathReference.downloadUrl.addOnSuccessListener(onSuccessListener)
 
         onDispose {}
-fun ExploreScreen(){
+    }
     Surface (
         modifier = Modifier
             .fillMaxSize()
