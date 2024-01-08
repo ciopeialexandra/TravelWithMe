@@ -106,7 +106,7 @@ class SignUpViewModel(private val userRepository: UserRepository) :ViewModel() {
                 Log.d(TAG,"is succesful = ${it.isSuccessful}")
                 signUpProgress.value = false
                 if(it.isSuccessful){
-                    TravelAppNavigate.navigateTo(Screen.ExploreScreen)
+                    TravelAppNavigate.navigateTo(Screen.SignInScreen)
                 }
             }
             .addOnFailureListener{

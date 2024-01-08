@@ -728,6 +728,7 @@ fun CameraGalleryChooser(storyViewModel:StoryViewModel) {
                         emailDb, currentPhoto!!
                     )
                 }
+
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -758,7 +759,7 @@ fun CameraGalleryChooser(storyViewModel:StoryViewModel) {
     }
 }
 @Composable
-fun showStory(storyViewModel:StoryViewModel){
+fun ShowStory(storyViewModel:StoryViewModel){
     val story = storyViewModel.storyListState.collectAsState(emptyList())
     LazyColumn {
         items(story.value) { story ->
@@ -775,7 +776,7 @@ fun showStory(storyViewModel:StoryViewModel){
                         contentScale = ContentScale.FillWidth
                     )
                     Text(
-                        text = nameUser,
+                        text = storyViewModel.storyUIState.value.email,
                         fontSize = MaterialTheme.typography.bodySmall.fontSize,
                         modifier = Modifier
                             .fillMaxWidth()

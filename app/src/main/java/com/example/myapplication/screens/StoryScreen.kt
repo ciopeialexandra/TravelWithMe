@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.example.myapplication.components.CameraGalleryChooser
-import com.example.myapplication.components.showStory
+import com.example.myapplication.components.ShowStory
 import com.example.myapplication.data.StoryViewModel
 
 @Composable
@@ -21,7 +21,7 @@ fun StoryScreen(storyViewModel: StoryViewModel) {
         Column {
 
             CameraGalleryChooser(storyViewModel)
-            showStory(storyViewModel = storyViewModel)
+            ShowStory(storyViewModel = storyViewModel)
         }
     }
 }
