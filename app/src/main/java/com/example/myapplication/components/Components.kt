@@ -93,7 +93,6 @@ import com.example.myapplication.data.TripViewModel
 import com.example.myapplication.data.firebase.emailDb
 import com.example.myapplication.data.firebase.uploadImageToFirebase
 import com.example.myapplication.data.firebase.uploadImageToFirebase2
-import com.example.myapplication.screens.nameUser
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.Firebase
 import com.google.firebase.storage.StorageReference
@@ -721,13 +720,6 @@ fun CameraGalleryChooser(storyViewModel:StoryViewModel) {
         Button(
             onClick = {
                 launcher.launch(imageUtils.getIntent())
-                if (currentPhoto != null) {
-                    uploadImageToFirebase2(Uri.fromFile(currentPhoto?.let { File(it) }))
-                    storyViewModel.onEvent(StoryUIEvent.StoryChanged(currentPhoto!!))
-                    storyViewModel.addStory(
-                        emailDb, currentPhoto!!
-                    )
-                }
 
             },
             modifier = Modifier
@@ -738,6 +730,13 @@ fun CameraGalleryChooser(storyViewModel:StoryViewModel) {
            // shape = RoundedCornerShape(50.dp),
             enabled = true
         ) {
+            if (currentPhoto != null) {
+                uploadImageToFirebase2(Uri.fromFile(currentPhoto?.let { File(it) }))
+                storyViewModel.onEvent(StoryUIEvent.StoryChanged(currentPhoto!!))
+                storyViewModel.addStory(
+                    emailDb, currentPhoto!!
+                )
+            }
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
